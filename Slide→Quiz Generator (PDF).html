@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Slide→Quiz Generator (PDF) — Random Sets + Tutor</title>
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- pdf.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js"></script>
+<script>
+  // Point pdf.js to its worker
+  if (window['pdfjsLib']) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+  }
+</script>
+
+<style>
+  :root {
+    /* Modern Color System */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --surface: #ffffff;
+    --surface-elevated: #ffffff;
+    
+    /* Text Colors */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-tertiary: #64748b;
+    --text-inverse: #ffffff;
+    
+    /* Border Colors */
+    --border-primary: #e2e8f0;
+    --border-secondary: #cbd5e1;
+    --border-focus: #3b82f6;
+    
+    /* Brand Colors */
+    --brand-primary: #3b82f6;
+    --brand-primary-hover: #2563eb;
+    --brand-primary-active: #1d4ed8;
+    --brand-secondary: #1e293b;
+    
+    /* Status Colors */
+    --success: #059669;
+    --success-bg: #ecfdf5;
+    --success-border: #a7f3d0;
+    --error: #dc2626;
+    --error-bg: #fef2f2;
+    --error-border: #fecaca;
+    --warning: #d97706;
+    --warning-bg: #fffbeb;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-base: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+    
+    /* Spacing Scale */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+  }
+
+  /* Typography System */
+  body { 
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    margin: 0;
+    padding: var(--space-6);
+    font-size: 14px;
+  }
+
+  h1 { 
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 var(--space-2) 0;
+    letter-spacing: -0.025em;
+  }
+
+  .sub { 
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0 0 var(--space-8) 0;
+  }
+
+  /* Layout System */
+  .layout { 
+    display: grid; 
+    grid-template-columns: 1fr 400px; 
+    gap: var(--space-8);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 1024px) { 
+    .layout { 
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    } 
+    .right { 
+      position: static !important; 
+      height: auto !important;
+    }
+  }
+
+  .left { min-width: 0; }
+
+  .right { 
+    background: var(--surface);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    height: calc(100vh - 120px);
+    position: sticky;
+    top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden; /* Prevent the entire sidebar from scrolling */
+  }
+
+  /* Card System */
+  .card { 
+    background: var(--surface);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    margin: var(--space-4) 0;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-base);
+    border-color: var(--border-secondary);
+  }
+
+  /* Alternating card colors for visual variety */
+  .card:nth-child(odd) {
+    background: #e0dce7; /* Light lavender-gray */
+  }
+
+  .card:nth-child(even) {
+    background: #f0e3db; /* Light peach-beige */
+  }
+
+  /* Button System */
+  button { 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3) var(--space-5);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-base);
+    border: 1px solid var(--border-primary);
+    background: var(--surface);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    min-height: 40px;
+  }
+
+  button:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  button:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  button.primary { 
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: var(--text-inverse);
+    font-weight: 600;
+  }
+
+  button.primary:hover {
+    background: var(--brand-primary-hover);
+    border-color: var(--brand-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  button.primary:active {
+    background: var(--brand-primary-active);
+    border-color: var(--brand-primary-active);
+  }
+
+  /* Input System */
+  input[type="text"], 
+  input[type="number"], 
+  input[type="password"],
+  input[type="file"] { 
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-base);
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: all 0.2s ease;
+    min-height: 40px;
+    box-sizing: border-box;
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgb(59 130 246 / 0.1);
+  }
+
+  input[type="file"] {
+    padding: var(--space-2);
+    cursor: pointer;
+  }
+
+  /* Layout Components */
+  .row { 
+    display: flex; 
+    gap: var(--space-3); 
+    align-items: center; 
+    flex-wrap: wrap; 
+  }
+
+  .row label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  /* Quiz Components */
+  .qbox { 
+    background: var(--surface);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    margin: var(--space-5) 0;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+
+  .qbox:hover {
+    border-color: var(--border-secondary);
+    box-shadow: var(--shadow-base);
+  }
+
+  .qtitle { 
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: var(--space-4);
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .opt { 
+    margin: var(--space-3) 0;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-base);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .opt:hover {
+    background: var(--bg-tertiary);
+  }
+
+  .opt input[type="radio"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* Status and Feedback */
+  .muted { color: var(--text-tertiary); }
+  .correct { color: var(--success); font-weight: 600; }
+  .incorrect { color: var(--error); font-weight: 600; }
+
+  /* Chips and Pills */
+  .chip { 
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    display: inline-block;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: var(--space-2);
+  }
+
+  .pill { 
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  /* Controls */
+  .controls { 
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--border-primary);
+    margin-top: var(--space-4);
+    border-radius: var(--radius-md);
+  }
+
+  .score { 
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: var(--space-3);
+    color: var(--text-primary);
+  }
+
+  .fb { 
+    margin-top: var(--space-3);
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* Scorecard */
+  .scorecard { 
+    background: var(--success-bg);
+    border: 1px solid var(--success-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin-top: var(--space-4);
+  }
+
+  .kpi { 
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+  }
+
+  .kpititle { 
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .kpinum { 
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: var(--space-1);
+  }
+
+  .setlabel { 
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: var(--space-2) 0 0 0;
+    font-weight: 500;
+  }
+
+  /* Chat System */
+  .chat-header { 
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+  }
+
+  .chat-log { 
+    flex: 1;
+    overflow-y: scroll !important; /* Force scrollbar to always show */
+    overflow-x: hidden;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-base);
+    padding: var(--space-3);
+    background: var(--bg-tertiary);
+    margin: var(--space-3) 0;
+    height: 500px; /* Significantly increased height for better visibility */
+    word-wrap: break-word;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-secondary) var(--bg-tertiary);
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  .chat-log::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .chat-log::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-base);
+  }
+
+  .chat-log::-webkit-scrollbar-thumb {
+    background: var(--border-secondary);
+    border-radius: var(--radius-base);
+  }
+
+  .chat-log::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
+  }
+
+  .msg { margin: var(--space-3) 0; }
+  .msg.me { text-align: right; }
+
+  .msg .bubble { 
+    display: inline-block;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    max-width: 85%;
+    word-wrap: break-word;
+    line-height: 1.4;
+  }
+
+  .msg.me .bubble { 
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+    border-bottom-right-radius: var(--space-1);
+  }
+
+  .msg.bot .bubble { 
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+    border-bottom-left-radius: var(--space-1);
+  }
+
+  .chat-input { 
+    margin-top: var(--space-3);
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .chat-input input {
+    flex: 1;
+  }
+
+  /* Utility Classes */
+  .tiny { 
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin: var(--space-2) 0;
+    line-height: 1.4;
+  }
+
+  .section-title { 
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+  }
+
+  .hint { 
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: var(--space-2);
+    line-height: 1.4;
+  }
+
+  /* Loading and Progress */
+  .barwrap { 
+    width: 100%;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-primary);
+    height: 8px;
+    overflow: hidden;
+  }
+
+  .bar { 
+    height: 100%;
+    background: var(--brand-primary);
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    body { padding: var(--space-4); }
+    
+    .kpi { 
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+    
+    .row { 
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .row label {
+      justify-content: space-between;
+    }
+  }
+
+  /* Focus and Accessibility */
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+  }
+
+  /* New Component Styles */
+  
+  /* Step Numbers */
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: var(--space-3);
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: var(--space-4);
+    color: var(--text-primary);
+  }
+
+  /* File Upload Area */
+  .file-upload-area {
+    padding: var(--space-4);
+    border: 2px dashed var(--border-primary);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+
+  .file-upload-area:hover {
+    border-color: var(--brand-primary);
+    background: var(--bg-tertiary);
+  }
+
+  .file-upload-area input[type="file"] {
+    width: 100%;
+    padding: var(--space-3);
+    border: none;
+    background: transparent;
+    text-align: center;
+  }
+
+  /* Settings Grid */
+  .settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .input-hint {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: var(--space-1);
+  }
+
+  /* Checkbox Styling */
+  .checkbox-group {
+    margin: var(--space-4) 0;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    cursor: pointer;
+    padding: var(--space-3);
+    border-radius: var(--radius-base);
+    transition: all 0.2s ease;
+  }
+
+  .checkbox-label:hover {
+    background: var(--bg-tertiary);
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .checkmark {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-primary);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    transition: all 0.2s ease;
+  }
+
+  .checkbox-label input[type="checkbox"]:checked + .checkmark {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+  }
+
+  .checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-inverse);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* Action Row */
+  .action-row {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .button-icon {
+    margin-right: var(--space-2);
+    font-size: 16px;
+  }
+
+  .status-message {
+    color: var(--text-tertiary);
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  /* Quiz Section */
+  .quiz-section {
+    min-height: 400px;
+  }
+
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  .timer-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .timer {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-tertiary);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-base);
+  }
+
+  .control-buttons {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Tutor Section */
+  .tutor-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--space-4);
+    min-height: 0; /* Allow flex container to shrink */
+    overflow: hidden;
+  }
+
+  .chat-icon {
+    margin-right: var(--space-2);
+    font-size: 18px;
+  }
+
+  .api-setup {
+    margin-bottom: var(--space-4);
+  }
+
+  .api-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .api-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .api-input-group input {
+    flex: 1;
+  }
+
+  .api-clear-btn {
+    background: var(--error);
+    color: var(--text-inverse);
+    border: none;
+    padding: var(--space-2);
+    border-radius: var(--radius-base);
+    cursor: pointer;
+    font-size: 12px;
+    min-width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .api-clear-btn:hover {
+    background: #dc2626;
+    transform: scale(1.05);
+  }
+
+  .api-clear-btn .button-icon {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .api-status {
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    font-weight: 500;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-base);
+    pointer-events: none;
+  }
+
+  .api-status.saved {
+    background: var(--success-bg);
+    color: var(--success);
+    border: 1px solid var(--success-border);
+  }
+
+  .api-status.empty {
+    background: var(--warning-bg);
+    color: var(--warning);
+    border: 1px solid var(--warning-bg);
+  }
+
+  .api-link {
+    color: var(--brand-primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .api-link:hover {
+    color: var(--brand-primary-hover);
+    border-bottom-color: var(--brand-primary-hover);
+    text-decoration: none;
+  }
+
+  .api-link:focus {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Allow flex container to shrink */
+    height: calc(100% - 120px); /* Fixed height calculation */
+  }
+
+
+  /* Enhanced Quiz Question Styling */
+  .qbox {
+    background: var(--surface);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+    margin: var(--space-5) 0;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .qbox::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--brand-primary);
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  }
+
+  .qbox:hover {
+    border-color: var(--border-secondary);
+    box-shadow: var(--shadow-base);
+    transform: translateY(-1px);
+  }
+
+  /* Improved Radio Button Styling */
+  .opt input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-primary);
+    border-radius: 50%;
+    background: var(--surface);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .opt input[type="radio"]:checked {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary);
+  }
+
+  .opt input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: var(--text-inverse);
+    border-radius: 50%;
+  }
+
+  .opt input[type="radio"]:focus {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+  }
+
+  /* Enhanced Scorecard */
+  .scorecard {
+    background: linear-gradient(135deg, var(--success-bg) 0%, #f0fdf4 100%);
+    border: 1px solid var(--success-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin-top: var(--space-4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scorecard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--success), #10b981);
+  }
+
+  /* Mobile Responsive Improvements */
+  @media (max-width: 768px) {
+    .settings-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .action-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .control-buttons {
+      flex-direction: column;
+    }
+    
+    .export-buttons {
+      flex-direction: row;
+      gap: var(--space-3);
+    }
+    
+    .quiz-header {
+      flex-direction: column;
+      gap: var(--space-2);
+      align-items: flex-start;
+    }
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: var(--space-12);
+    padding: var(--space-8) var(--space-6);
+    border-top: 1px solid var(--border-primary);
+    background: var(--bg-primary);
+    text-align: center;
+  }
+
+  .footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .copyright {
+    color: var(--text-tertiary);
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .footer {
+      padding: var(--space-6) var(--space-4);
+    }
+    
+    .copyright {
+      font-size: 12px;
+    }
+  }
+
+  /* Enhanced Feedback Styling */
+  .feedback-container {
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-4);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-secondary) var(--bg-tertiary);
+  }
+
+  .feedback-container::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .feedback-container::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-base);
+  }
+
+  .feedback-container::-webkit-scrollbar-thumb {
+    background: var(--border-secondary);
+    border-radius: var(--radius-base);
+  }
+
+  .feedback-header-controls {
+    background: var(--bg-secondary);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--border-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .feedback-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .feedback-toggle {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+    border: none;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-base);
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .feedback-toggle:hover {
+    background: var(--brand-primary-hover);
+  }
+
+  .feedback-item {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border-primary);
+    padding: var(--space-4);
+    margin: 0;
+  }
+
+  .feedback-item:last-child {
+    border-bottom: none;
+  }
+
+  .feedback-header {
+    margin-bottom: var(--space-3);
+  }
+
+  .question-number {
+    font-weight: 700;
+    color: var(--brand-primary);
+    margin-right: var(--space-2);
+  }
+
+  .feedback-question {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .feedback-answers {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: var(--space-3) 0;
+    padding: var(--space-3);
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-base);
+  }
+
+  .your-answer, .correct-answer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) 0;
+    font-size: 14px;
+  }
+
+  .your-answer {
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  .correct-answer {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .result-status {
+    margin-top: var(--space-2);
+    padding: var(--space-2);
+    border-radius: var(--radius-base);
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .feedback-explanation {
+    background: var(--bg-secondary);
+    padding: var(--space-4);
+    border-radius: var(--radius-base);
+    border-left: 4px solid var(--brand-primary);
+    margin-top: var(--space-3);
+  }
+
+  .feedback-explanation strong {
+    color: var(--brand-primary);
+    margin-bottom: var(--space-2);
+    display: block;
+  }
+
+  /* Mobile responsive feedback */
+  @media (max-width: 768px) {
+    .feedback-answers {
+      gap: var(--space-3);
+    }
+    
+    .your-answer, .correct-answer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-1);
+    }
+    
+    .feedback-item {
+      padding: var(--space-4);
+    }
+  }
+
+  /* Smooth transitions for better UX */
+  * {
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+</style>
+</head>
+<body>
+  <h1>📚 Slide→Quiz Generator</h1>
+  <div class="sub">Upload PDF slides. Pick how many questions and sets. Generate quizzes with <b>Gemini</b> (or use fallback if no key). Random set loads on reset. Tutor panel on the right.</div>
+
+  <div class="layout">
+    <main class="left">
+      <section class="card">
+        <div class="section-title">
+          <span class="step-number">1</span>
+          Upload slides (PDF)
+        </div>
+        <div class="file-upload-area">
+          <input id="pdfInput" type="file" accept="application/pdf" multiple aria-describedby="file-hint" />
+          <div id="file-hint" class="hint">You can select multiple PDFs. Text is extracted locally in your browser with pdf.js.</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <span class="step-number">2</span>
+          Settings
+        </div>
+        <div class="settings-grid">
+          <div class="form-group">
+            <label for="numSets">Number of sets</label>
+            <input id="numSets" type="number" min="1" max="10" value="3" aria-describedby="sets-hint"/>
+            <div id="sets-hint" class="input-hint">1-10 different quiz sets</div>
+          </div>
+          <div class="form-group">
+            <label for="perSet">Questions per set</label>
+            <input id="perSet" type="number" min="5" max="60" value="30" aria-describedby="questions-hint"/>
+            <div id="questions-hint" class="input-hint">5-60 questions each</div>
+          </div>
+          <div class="form-group">
+            <label for="seed">Random seed (optional)</label>
+            <input id="seed" type="text" placeholder="e.g. 42" aria-describedby="seed-hint"/>
+            <div id="seed-hint" class="input-hint">For reproducible randomness</div>
+          </div>
+        </div>
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input id="useLLM" type="checkbox" checked/>
+            <span class="checkmark"></span>
+            Use Gemini AI to generate questions (Highly recommended)
+          </label>
+        </div>
+        <div class="action-row">
+          <button class="primary" onclick="generateQuizzes()" aria-describedby="status">
+            <span class="button-icon">🚀</span>
+            Generate quizzes
+          </button>
+          <button onclick="resetToRandomSet()">
+            <span class="button-icon">🔄</span>
+            Reset (random set)
+          </button>
+          <div id="status" class="status-message" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="card quiz-section">
+        <div class="quiz-header">
+          <div id="setinfo" class="setlabel"></div>
+          <div class="timer-container">
+            <span id="timer" class="timer"></span>
+          </div>
+        </div>
+        <div id="quiz" role="form" aria-label="Quiz questions"></div>
+        <div class="controls">
+          <div class="control-buttons">
+            <button class="primary" onclick="grade()">
+              <span class="button-icon">📊</span>
+              Grade my quiz
+            </button>
+            <button onclick="resetToRandomSet()">
+              <span class="button-icon">🎲</span>
+              New random set
+            </button>
+          </div>
+          <div class="scorecard" id="scorecard" style="display:none;" role="region" aria-label="Quiz results"></div>
+          <div class="score" id="score" aria-live="polite"></div>
+          <div class="fb" id="feedback" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="right">
+      <section class="tutor-section">
+        <div class="chat-header">
+          <span class="chat-icon">🤖</span>
+          AI Tutor (Gemini)
+        </div>
+        <div class="api-setup">
+          <label for="apikey" class="api-label">API Key (session storage)</label>
+          <div class="api-input-group">
+            <input type="password" id="apikey" placeholder="Enter your Gemini API key" aria-describedby="api-hint"/>
+            <button type="button" class="api-clear-btn" onclick="clearApiKey()" title="Clear API key">
+              <span class="button-icon">🗑️</span>
+            </button>
+            <div class="api-status" id="api-status"></div>
+          </div>
+          <div id="api-hint" class="tiny">
+            🔒 <strong>Secure:</strong> Key saved for this browser session only. Automatically cleared when you close the browser.
+            <br>💡 Your tutor uses slide content to provide hints and explanations without revealing quiz answers.
+            <br>🗝️ <strong>Get API Key:</strong> Visit <a href="https://aistudio.google.com/apikey" target="_blank" class="api-link">Google AI Studio</a> and press "Create API key" then select "Create project" or use existing project.
+          </div>
+        </div>
+        <div class="chat-container">
+          <div class="chat-log" id="chatlog" role="log" aria-label="Chat conversation"></div>
+          <div class="chat-input">
+            <input type="text" id="chattext" placeholder="Ask about concepts from your slides..." aria-label="Chat message"/>
+            <button onclick="sendMsg()" aria-label="Send message">
+              <span class="button-icon">📤</span>
+              Send
+            </button>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p class="copyright">© 2025 MD Wahid Islam Arefin. All rights reserved.</p>
+    </div>
+  </footer>
+
+<script>
+// ============ Utilities ============
+function $(id){ return document.getElementById(id); }
+function randInt(n){ return Math.floor(Math.random()*n); }
+function seededRandom(seed){
+  let h = 2166136261 >>> 0;
+  for (let i=0;i<seed.length;i++){ h ^= seed.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return function(){ h += 0x6D2B79F5; let t = Math.imul(h ^ h>>>15, 1 | h); t ^= t + Math.imul(t ^ t>>>7, 61 | t); return ((t ^ t>>>14) >>> 0) / 4294967296; }
+}
+function shuffle(arr, rng=Math.random){ for (let i=arr.length-1;i>0;i--){ const j = Math.floor(rng()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+// ============ PDF text extraction ============
+async function extractTextFromFiles(files){
+  let fullText = "";
+  for (const file of files){
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data: new Uint8Array(buf)}).promise;
+    let fileText = "";
+    for (let p=1; p<=pdf.numPages; p++){
+      const page = await pdf.getPage(p);
+      const content = await page.getTextContent();
+      const strings = content.items.map(it => it.str);
+      fileText += "\n\n# Page "+p+"\n" + strings.join(" ");
+    }
+    fullText += "\n\n===== FILE: "+file.name+" =====\n"+fileText;
+  }
+  return fullText;
+}
+
+// ============ Enhanced text validation and generic questions ============
+function generateGenericQuestions(n) {
+  const genericQuestions = [
+    {q: "What is a key principle in data analysis?", opts: ["Accuracy", "Speed", "Complexity", "Volume"], ans: 0, exp: "Accuracy is fundamental to reliable data analysis."},
+    {q: "Which step typically comes first in a research process?", opts: ["Data collection", "Problem identification", "Analysis", "Reporting"], ans: 1, exp: "Identifying the problem guides the entire research process."},
+    {q: "What does statistical significance typically indicate?", opts: ["Results are likely not due to chance", "Results are practically important", "Data is complete", "Sample is large"], ans: 0, exp: "Statistical significance suggests results are unlikely to be due to random chance."},
+    {q: "In data visualization, what is most important?", opts: ["Clarity and readability", "Complex graphics", "Many colors", "3D effects"], ans: 0, exp: "Clear, readable visualizations communicate information most effectively."},
+    {q: "What characterizes good research methodology?", opts: ["Systematic and reproducible", "Quick and simple", "Subjective and flexible", "Complex and detailed"], ans: 0, exp: "Good methodology should be systematic and allow for reproducibility."},
+    {q: "Which factor is crucial for data quality?", opts: ["Completeness and accuracy", "Large volume", "Fast processing", "Multiple sources"], ans: 0, exp: "Complete and accurate data forms the foundation of reliable analysis."},
+    {q: "What is the purpose of data preprocessing?", opts: ["Clean and prepare data", "Increase data size", "Add complexity", "Remove all data"], ans: 0, exp: "Preprocessing ensures data is clean and suitable for analysis."},
+    {q: "In statistical analysis, what does correlation measure?", opts: ["Relationship strength", "Causation", "Data size", "Processing time"], ans: 0, exp: "Correlation measures the strength of relationship between variables."}
+  ];
+  
+  shuffle(genericQuestions, Math.random);
+  const selected = [];
+  for (let i = 0; i < n && i < genericQuestions.length; i++) {
+    selected.push(genericQuestions[i]);
+  }
+  
+  // Fill remaining with variations if needed
+  while (selected.length < n) {
+    selected.push({
+      q: `What is an important consideration in academic work? (Question ${selected.length + 1})`,
+      opts: ["Accuracy and ethics", "Speed only", "Personal opinion", "Simplification"],
+      ans: 0,
+      exp: "Academic work requires accuracy, ethical considerations, and proper methodology."
+    });
+  }
+  
+  return selected;
+}
+
+// ============ Heuristic fallback question generator ============
+function heuristicGenerate(text, n, rng){
+  // Check if we have sufficient text content
+  if (!text || text.trim().length < 200) {
+    console.warn("Insufficient text content, using generic questions");
+    return generateGenericQuestions(n);
+  }
+  
+  const sents = text.split(/(?<=[\.\?\!])\s+/).filter(s => s.length>40 && s.length<240);
+  shuffle(sents, rng);
+  const questions = [];
+  const common = ["data","model","analysis","process","algorithm","structure","value","feature","performance","system","method","approach","technique","concept","principle","theory","result","conclusion","finding","research","study","learning","knowledge","information","content","material","slide","presentation","topic","subject","example","case","problem","solution","answer","question","test","exam","assessment","evaluation","measurement","metric","indicator","factor","element","component","part","section","chapter","lesson","course","module","unit","objective","goal","purpose","aim","target","outcome","output","input","requirement","specification","criteria","standard","guideline","rule","policy","procedure","step","stage","phase","level","grade","score","point","mark","rating","ranking","classification","category","type","kind","sort","class","group","set","collection","series","sequence","order","arrangement","organization","structure","framework","model","pattern","template","format","style","design","layout","plan","strategy","tactic","method","technique","approach","way","manner","mode","means","tool","instrument","device","equipment","technology","software","hardware","system","platform","application","program","code","algorithm","function","operation","task","activity","action","behavior","conduct","practice","habit","routine","custom","tradition","convention","norm","rule","regulation","law","principle","concept","idea","notion","thought","opinion","view","perspective","angle","aspect","dimension","feature","characteristic","attribute","property","quality","trait","nature","essence","core","basis","foundation","ground","reason","cause","factor","source","origin","root","background","context","setting","environment","condition","situation","circumstance","state","status","position","location","place","area","region","zone","field","domain","scope","range","extent","limit","boundary","border","edge","margin","gap","space","distance","interval","period","time","duration","length","width","height","depth","size","scale","magnitude","volume","amount","quantity","number","count","total","sum","average","mean","median","mode","minimum","maximum","range","variance","deviation","distribution","frequency","probability","chance","likelihood","risk","uncertainty","variability","stability","consistency","reliability","validity","accuracy","precision","error","mistake","fault","defect","flaw","weakness","strength","advantage","benefit","value","worth","importance","significance","relevance","impact","effect","influence","consequence","result","outcome","achievement","success","failure","challenge","difficulty","obstacle","barrier","limitation","constraint","restriction","requirement","need","demand","request","suggestion","recommendation","advice","guidance","instruction","direction","command","order","rule","regulation","policy","procedure","protocol","standard","specification","criteria","measure","metric","indicator","signal","sign","symbol","mark","label","tag","name","title","heading","caption","description","explanation","definition","meaning","interpretation","understanding","comprehension","knowledge","awareness","recognition","identification","detection","discovery","finding","observation","perception","sensation","feeling","emotion","attitude","belief","opinion","judgment","decision","choice","selection","option","alternative","possibility","opportunity","chance","probability","likelihood","tendency","trend","pattern","cycle","rhythm","flow","process","procedure","method","technique","approach","strategy","plan","design","model","framework","structure","system","organization","arrangement","configuration","setup","layout","format","style","appearance","look","image","picture","diagram","chart","graph","table","list","menu","index","catalog","directory","database","file","document","report","paper","article","book","text","content","material","information","data","fact","detail","point","item","element","component","part","piece","section","chapter","page","paragraph","sentence","word","term","phrase","expression","statement","claim","assertion","argument","evidence","proof","support","backing","justification","reason","explanation","rationale","logic","reasoning","thinking","analysis","evaluation","assessment","judgment","criticism","review","feedback","comment","response","reply","answer","solution","resolution","conclusion","result","outcome","finding","discovery","insight","revelation","understanding","comprehension","learning","education","training","instruction","teaching","guidance","advice","help","assistance","support","service","resource","tool","aid","benefit","advantage","value","worth","merit","quality","excellence","superiority","perfection","ideal","standard","benchmark","criterion","measure","test","check","verification","validation","confirmation","proof","evidence","demonstration","illustration","example","instance","case","sample","specimen"];
+  for (let i=0; i<sents.length && questions.length<n; i++){
+    const s = sents[i];
+    const tokens = s.split(/\s+/);
+    let idx = -1;
+    for (let j=0; j<tokens.length; j++){
+      const t = tokens[j].replace(/[^A-Za-z]/g,"");
+      if (t.length>4 && common.includes(t.toLowerCase())) { idx=j; break; }
+    }
+    if (idx<0) continue;
+    const answer = tokens[idx].replace(/[^\w\-]/g,"");
+    const qText = s.replace(tokens[idx], "_____");
+    const distractors = shuffle(
+      Array.from(new Set(common.filter(w => w.toLowerCase()!==answer.toLowerCase()))),
+      rng
+    ).slice(0,3);
+    const opts = shuffle([answer, ...distractors], rng);
+    const ansIndex = opts.findIndex(o => o===answer);
+    questions.push({q:qText, opts:opts, ans:ansIndex, exp:"From the slides: the blank comes from the original sentence."});
+  }
+  while (questions.length<n){
+    questions.push({
+      q:"Which option best fits a generic slide statement?",
+      opts:["Concept A","Concept B","Concept C","Concept D"], ans:0,
+      exp:"Fallback placeholder; provide an API key for content-true questions."
+    });
+  }
+  return questions.slice(0,n);
+}
+
+// ============ Gemini-based generator ============
+async function generateSetWithGemini(slidesText, perSet, apikey, temperature=0.7){
+  // Check if we have sufficient content for AI generation
+  if (!slidesText || slidesText.trim().length < 300) {
+    console.warn("Insufficient text for AI generation, using fallback");
+    return generateGenericQuestions(perSet);
+  }
+
+  const prompt = `You are generating multiple-choice questions (MCQs) from the provided slides text.
+
+IMPORTANT: If the slides text is very limited (mostly page headers, numbers, or minimal content), focus on creating general academic/educational questions based on any keywords or context you can identify.
+
+Return ONLY JSON with this exact shape:
+{"questions":[{"q":"...", "opts":["A","B","C","D"], "ans":0, "exp":"..."}]}
+
+Rules:
+- Create exactly ${perSet} questions.
+- Each question has 4 options (A-D), exactly 1 correct.
+- "ans" is the 0-based index of the correct option.
+- "exp" is a 1-2 sentence explanation.
+- Do NOT include any text outside JSON. No code fences.
+- If slides text is limited, create educational questions based on apparent subject area.
+- Make questions educational and meaningful, even if slides are image-heavy.
+
+Available slides text:
+<slides>
+${slidesText.substring(0, 18000)}
+</slides>
+
+If the text above is very limited, infer the subject area and create relevant educational questions about that topic.`;
+
+  const payload = {
+    contents: [{ role: "user", parts: [{ text: prompt }]}],
+    generationConfig: { temperature }
+  };
+  const resp = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+encodeURIComponent(apikey), {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify(payload)
+  });
+  if (!resp.ok){
+    throw new Error(await resp.text());
+  }
+  const data = await resp.json();
+  let text = (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) || "";
+  text = text.replace(/^```json\s*|\s*```$/g, "");
+  let parsed;
+  try{ parsed = JSON.parse(text); } catch(e){ throw new Error("Failed to parse JSON from Gemini: "+e.message+"\nRaw: "+text.slice(0,400)); }
+  if (!parsed || !Array.isArray(parsed.questions)) throw new Error("Gemini JSON missing 'questions' array.");
+  parsed.questions = parsed.questions.map(q => ({
+    q: String(q.q||"").trim(),
+    opts: Array.isArray(q.opts) && q.opts.length===4 ? q.opts.map(String) : ["A","B","C","D"],
+    ans: Number.isInteger(q.ans) ? q.ans : 0,
+    exp: String(q.exp||"").trim()
+  }));
+  if (parsed.questions.length !== perSet){
+    const need = perSet - parsed.questions.length;
+    if (need > 0){
+      for (let i=0;i<need;i++){
+        parsed.questions.push({
+          q:"Filler question (generation count adjusted).",
+          opts:["Option A","Option B","Option C","Option D"], ans:0,
+          exp:"Added to reach requested count."
+        });
+      }
+    } else {
+      parsed.questions = parsed.questions.slice(0, perSet);
+    }
+  }
+  return parsed.questions;
+}
+
+// ============ State ============
+let SLIDES_TEXT = "";
+let QUIZ_SETS = [];   // array of sets; each set is array of {q,opts,ans,exp}
+let ACTIVE_INDEX = -1;
+let START_TIME = Date.now();
+let RNG = Math.random;
+let LAST_RESULTS = []; // for CSV export
+
+// ============ Rendering ============
+function setStatus(msg){ $("status").textContent = msg; }
+function setInfoSetLabel(){
+  if (ACTIVE_INDEX<0) {$("setinfo").innerHTML=""; return;}
+  $("setinfo").innerHTML = `Active set: <b>Set ${String.fromCharCode(65+ACTIVE_INDEX)}</b> <span class="pill">${QUIZ_SETS[ACTIVE_INDEX].length} questions</span>`;
+}
+function el(tag, attrs={}, children=[]){
+  const e = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs)){
+    if (k==='class') e.className=v;
+    else if (k==='html') e.innerHTML=v;
+    else e.setAttribute(k, v);
+  }
+  for (const c of children) e.appendChild(c);
+  return e;
+}
+
+function renderQuiz(){
+  const container = $("quiz");
+  container.innerHTML = "";
+  if (ACTIVE_INDEX<0 || !QUIZ_SETS[ACTIVE_INDEX]){
+    container.innerHTML = "<div class='muted'>No quiz loaded. Click <b>Generate quizzes</b> first.</div>";
+    return;
+  }
+  const qs = QUIZ_SETS[ACTIVE_INDEX];
+  for (let i=0;i<qs.length;i++){
+    const q = qs[i];
+    const qBox = el('div', {class:'qbox'});
+    const title = el('div', {class:'qtitle', html:`${String(i+1).padStart(2,'0')}. ${q.q.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}`});
+    qBox.appendChild(title);
+    for (let j=0;j<4;j++){
+      const id = `q${i}_opt${j}`;
+      const label = el('label', {class:'opt', for:id});
+      const input = el('input', {type:'radio', name:`q${i}`, id});
+      const text = ` ${['A','B','C','D'][j]}) ${q.opts[j]}`;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(text));
+      qBox.appendChild(label);
+    }
+    container.appendChild(qBox);
+  }
+}
+
+function msToClock(ms){
+  const s = Math.floor(ms/1000);
+  const mm = Math.floor(s/60).toString().padStart(2,'0');
+  const ss = (s%60).toString().padStart(2,'0');
+  return mm+':'+ss;
+}
+
+function grade(){
+  if (ACTIVE_INDEX<0) return;
+  const elapsed = Date.now() - START_TIME;
+  $("timer").textContent = `Time: ${msToClock(elapsed)}`;
+
+  const qs = QUIZ_SETS[ACTIVE_INDEX];
+  let score = 0;
+  const rows = [];
+  LAST_RESULTS = [];
+
+  for (let i=0;i<qs.length;i++){
+    const q = qs[i];
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    let selIndex = -1;
+    if (selected){
+      const m = selected.id.match(/_opt(\d)$/);
+      if (m) selIndex = parseInt(m[1], 10);
+    }
+    const isCorrect = selIndex === q.ans;
+    if (isCorrect) score += 1;
+    const letters = ['A','B','C','D'];
+    const selLetter = selIndex >= 0 ? letters[selIndex] : '—';
+    const corrLetter = letters[q.ans];
+
+    LAST_RESULTS.push({
+      number: i+1,
+      question: q.q,
+      selected: selLetter,
+      correct: corrLetter,
+      correct_text: q.opts[q.ans],
+      explanation: q.exp
+    });
+
+    rows.push(`
+      <div class="feedback-item">
+        <div class="feedback-header">
+          <span class="question-number">${String(i+1).padStart(2,'0')}.</span>
+          <span class="feedback-question">${q.q}</span>
+        </div>
+        <div class="feedback-answers">
+          <span class="your-answer">Your answer: <b>${selLetter}</b> (${selIndex >= 0 ? q.opts[selIndex] : 'Not answered'})</span>
+          <span class="correct-answer">Correct: <b>${corrLetter}</b> (${q.opts[q.ans]})</span>
+          <span class="result-status">${isCorrect ? '<span class="correct">✅ Correct</span>' : '<span class="incorrect">❌ Incorrect</span>'}</span>
+        </div>
+        <div class="feedback-explanation">
+          <strong>Explanation:</strong> ${q.exp}
+        </div>
+      </div>
+    `);
+  }
+
+  const pct = Math.round((score/qs.length)*100);
+  $("score").innerHTML = `Score: ${score} / ${qs.length} (${pct}%)`;
+  
+  // Create the feedback container with proper structure
+  const feedbackHtml = `
+    <div class="feedback-container">
+      <div class="feedback-header-controls">
+        <h4 class="feedback-title">📝 Detailed Results (${qs.length} questions)</h4>
+        <button class="feedback-toggle" onclick="toggleFeedbackHeight()">Expand</button>
+      </div>
+      <div class="feedback-content">
+        ${rows.join('')}
+      </div>
+    </div>
+  `;
+  $("feedback").innerHTML = feedbackHtml;
+
+  const sc = $("scorecard");
+  sc.style.display = 'block';
+  let tier = 'Keep going';
+  if (pct >= 90) tier = 'Excellent';
+  else if (pct >= 75) tier = 'Great job';
+  else if (pct >= 60) tier = 'Solid start';
+
+  sc.innerHTML = `
+    <div class="kpi">
+      <div><div class="kpititle">Set</div><div class="kpinum">Set ${String.fromCharCode(65+ACTIVE_INDEX)}</div></div>
+      <div><div class="kpititle">Time</div><div class="kpinum">${msToClock(elapsed)}</div></div>
+      <div><div class="kpititle">Score</div><div class="kpinum">${pct}%</div></div>
+      <div><div class="kpititle">Verdict</div><div class="kpinum">${tier}</div></div>
+    </div>`;
+  
+  // Smooth scroll to the score section instead of bottom
+  setTimeout(() => {
+    const scoreElement = $("score");
+    if (scoreElement) {
+      scoreElement.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+  }, 100);
+}
+
+function resetToRandomSet(){
+  if (!QUIZ_SETS.length){ setStatus("No sets yet. Click Generate quizzes first."); return; }
+  const seedStr = $("seed").value.trim();
+  if (seedStr){
+    RNG = seededRandom(seedStr);
+  } else {
+    RNG = Math.random;
+  }
+  ACTIVE_INDEX = randInt(QUIZ_SETS.length);
+  setInfoSetLabel();
+  START_TIME = Date.now();
+  $("timer").textContent = "";
+  $("scorecard").style.display = "none";
+  $("score").innerHTML = "";
+  $("feedback").innerHTML = "";
+  renderQuiz();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ============ Generate quizzes pipeline ============
+async function generateQuizzes(){
+  try{
+    setStatus("Extracting text...");
+    const files = $("pdfInput").files;
+    if (!files || !files.length){ setStatus("Please select at least one PDF."); return; }
+    SLIDES_TEXT = await extractTextFromFiles(files);
+
+    // Provide feedback about text extraction
+    const textLength = SLIDES_TEXT.trim().length;
+    console.log(`Extracted ${textLength} characters from ${files.length} PDF(s)`);
+    
+    if (textLength < 200) {
+      setStatus("⚠️ Limited text extracted - PDFs may contain mostly images. Using enhanced fallback questions.");
+    } else if (textLength < 1000) {
+      setStatus("📝 Some text extracted - generating questions with available content.");
+    } else {
+      setStatus("📚 Good text content found - generating comprehensive questions.");
+    }
+
+    const numSets = Math.max(1, Math.min(10, parseInt($("numSets").value || "3", 10)));
+    const perSet = Math.max(5, Math.min(60, parseInt($("perSet").value || "30", 10)));
+    const useLLM = $("useLLM").checked;
+    const apikey = $("apikey").value.trim();
+    const seedStr = $("seed").value.trim();
+    RNG = seedStr ? seededRandom(seedStr) : Math.random;
+
+    QUIZ_SETS = [];
+    if (useLLM && apikey){
+      setStatus("Generating with Gemini (may take a moment)...");
+      const slices = sliceForSets(SLIDES_TEXT, numSets);
+      for (let i=0;i<numSets;i++){
+        const qset = await generateSetWithGemini(slices[i], perSet, apikey, 0.7);
+        QUIZ_SETS.push(qset);
+      }
+    } else {
+      setStatus("No API key or LLM disabled — using fallback generator.");
+      for (let i=0;i<numSets;i++){
+        const qset = heuristicGenerate(SLIDES_TEXT, perSet, RNG);
+        QUIZ_SETS.push(qset);
+      }
+    }
+    setStatus("Done. Loading a random set...");
+    ACTIVE_INDEX = randInt(QUIZ_SETS.length);
+    setInfoSetLabel();
+    START_TIME = Date.now();
+    $("timer").textContent = "";
+    renderQuiz();
+    setStatus("Ready.");
+  } catch(e){
+    console.error(e);
+    setStatus("Error: "+e.message);
+  }
+}
+
+function sliceForSets(text, k){
+  const len = text.length;
+  const seg = Math.max(2000, Math.floor(len/k));
+  const slices = [];
+  for (let i=0; i<k; i++){
+    const start = i*seg;
+    slices.push(text.substring(start, Math.min(len, start+seg+2000)));
+  }
+  return slices;
+}
+
+// ============ Tutor chat (Gemini) ============
+const chatlog = $("chatlog");
+function addMsg(text, who='bot'){
+  const wrap = document.createElement('div');
+  wrap.className = 'msg '+who;
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.innerText = text;
+  wrap.appendChild(bubble);
+  chatlog.appendChild(wrap);
+  chatlog.scrollTop = chatlog.scrollHeight;
+}
+addMsg("Hi! I'm your AI tutor. Upload slides first, then ask me for hints and explanations based on them. I'll help you understand concepts without giving away quiz answers! 🎓", 'bot');
+
+// ============ API Key Session Management ============
+function updateApiStatus() {
+  const statusEl = $("api-status");
+  const apiKey = $("apikey").value.trim();
+  
+  if (!statusEl) return;
+  
+  if (apiKey) {
+    statusEl.textContent = '✓ Saved';
+    statusEl.className = 'api-status saved';
+  } else {
+    statusEl.textContent = 'Empty';
+    statusEl.className = 'api-status empty';
+  }
+}
+
+function loadApiKey() {
+  const savedKey = sessionStorage.getItem('gemini_api_key');
+  if (savedKey) {
+    $("apikey").value = savedKey;
+    updateApiStatus();
+    console.log('API key loaded from session storage');
+  } else {
+    updateApiStatus();
+  }
+}
+
+function saveApiKey() {
+  const apiKey = $("apikey").value.trim();
+  if (apiKey) {
+    sessionStorage.setItem('gemini_api_key', apiKey);
+    console.log('API key saved to session storage');
+  } else {
+    sessionStorage.removeItem('gemini_api_key');
+    console.log('API key removed from session storage');
+  }
+  updateApiStatus();
+}
+
+function clearApiKey() {
+  sessionStorage.removeItem('gemini_api_key');
+  $("apikey").value = '';
+  updateApiStatus();
+  console.log('API key cleared');
+  
+  // Show confirmation
+  const statusEl = $("api-status");
+  if (statusEl) {
+    statusEl.textContent = 'Cleared';
+    statusEl.className = 'api-status empty';
+    setTimeout(() => {
+      updateApiStatus();
+    }, 2000);
+  }
+}
+
+// Load API key on page load
+loadApiKey();
+
+// Save API key when it changes
+$("apikey").addEventListener('input', function() {
+  saveApiKey();
+});
+
+$("apikey").addEventListener('paste', function() {
+  // Small delay to ensure pasted content is processed
+  setTimeout(saveApiKey, 100);
+});
+
+// Add keyboard support for chat
+$("chattext").addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    sendMsg();
+  }
+});
+
+// Add keyboard support for API key field  
+$("apikey").addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    $("chattext").focus();
+  }
+});
+
+async function sendMsg(){
+  const key = $("apikey").value.trim();
+  const txtEl = $("chattext");
+  const userText = txtEl.value.trim();
+  if (!userText) return;
+  addMsg(userText, 'me');
+  txtEl.value = "";
+  if (!key){
+    addMsg("Please paste your Gemini API key above to chat.", 'bot');
+    return;
+  }
+  const systemHint = `You are a helpful tutor grounded on provided slide text. Give short, clear, step-by-step hints.
+Do NOT give direct answers to the quiz; explain concepts or provide similar examples.
+Slides context (trimmed):
+<slides>${SLIDES_TEXT.substring(0, 20000)}</slides>`;
+
+  const payload = {
+    contents: [{ role: "user", parts: [{ text: systemHint + "\n\nQuestion: " + userText }]}]
+  };
+
+  try {
+    const resp = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+encodeURIComponent(key), {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(payload)
+    });
+    if (!resp.ok){
+      const t = await resp.text();
+      addMsg("Error from API: " + t, 'bot');
+      return;
+    }
+    const data = await resp.json();
+    const text = (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) || "No response text.";
+    addMsg(text, 'bot');
+  } catch (e){
+    addMsg("Network error: " + e.message, 'bot');
+  }
+}
+
+// ============ Feedback Toggle ============
+function toggleFeedbackHeight() {
+  const container = document.querySelector('.feedback-container');
+  const button = document.querySelector('.feedback-toggle');
+  
+  if (!container || !button) return;
+  
+  if (container.style.maxHeight === 'none' || container.style.maxHeight === '') {
+    container.style.maxHeight = '600px';
+    button.textContent = 'Expand';
+  } else {
+    container.style.maxHeight = 'none';
+    button.textContent = 'Collapse';
+  }
+}
+
+</script>
+</body>
+</html>
