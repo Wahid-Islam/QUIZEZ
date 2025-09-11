@@ -440,29 +440,84 @@
     background: var(--text-tertiary);
   }
 
-  .msg { margin: var(--space-3) 0; }
-  .msg.me { text-align: right; }
+  .msg { 
+    margin: var(--space-3) 0; 
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .msg.me { 
+    justify-content: flex-end;
+  }
+
+  .msg.bot {
+    justify-content: flex-start;
+  }
 
   .msg .bubble { 
     display: inline-block;
     padding: var(--space-3) var(--space-4);
-    border-radius: var(--radius-md);
-    max-width: 85%;
+    max-width: 75%;
     word-wrap: break-word;
     line-height: 1.4;
+    position: relative;
+    font-size: 14px;
   }
 
+  /* User messages (right side, green) */
   .msg.me .bubble { 
-    background: var(--brand-primary);
-    color: var(--text-inverse);
-    border-bottom-right-radius: var(--space-1);
+    background: #22c55e;
+    color: white;
+    border-radius: 20px 20px 6px 20px;
+    margin-left: var(--space-4);
   }
 
+  /* Bot messages (left side, light gray) */
   .msg.bot .bubble { 
-    background: var(--surface);
+    background: #f1f5f9;
     color: var(--text-primary);
-    border: 1px solid var(--border-primary);
-    border-bottom-left-radius: var(--space-1);
+    border-radius: 20px 20px 20px 6px;
+    margin-right: var(--space-4);
+    border: 1px solid #e2e8f0;
+  }
+
+  /* Typing animation */
+  .typing-indicator {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px 20px 20px 6px;
+    padding: var(--space-3) var(--space-4);
+    display: inline-block;
+    margin-right: var(--space-4);
+  }
+
+  .typing-dots {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .typing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #94a3b8;
+    animation: typing 1.4s infinite ease-in-out;
+  }
+
+  .typing-dot:nth-child(1) { animation-delay: 0s; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing {
+    0%, 60%, 100% {
+      transform: translateY(0);
+      opacity: 0.4;
+    }
+    30% {
+      transform: translateY(-10px);
+      opacity: 1;
+    }
   }
 
   .chat-input { 
@@ -729,6 +784,39 @@
     color: var(--text-tertiary);
     font-size: 14px;
     font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  /* Loading animation for status messages */
+  .loading-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .loading-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--text-tertiary);
+    animation: loadingBounce 1.4s infinite ease-in-out;
+  }
+
+  .loading-dot:nth-child(1) { animation-delay: 0s; }
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes loadingBounce {
+    0%, 60%, 100% {
+      transform: translateY(0);
+      opacity: 0.4;
+    }
+    30% {
+      transform: translateY(-6px);
+      opacity: 1;
+    }
   }
 
   /* Quiz Section */
@@ -1357,7 +1445,7 @@ async function extractTextFromFiles(files){
   if (hasInsufficientText) {
     const apiKey = getImageExtractionApiKey();
     if (apiKey) {
-      setStatus("📷 Limited text found. Analyzing images with Gemini Vision...");
+      setStatus("📷 Limited text found. Analyzing images with Gemini Vision", true);
       const imageContent = await extractContentFromImages(files, apiKey);
       if (imageContent.trim()) {
         fullText += "\n\n===== EXTRACTED FROM IMAGES =====\n" + imageContent;
@@ -1951,7 +2039,21 @@ let RNG = Math.random;
 let LAST_RESULTS = []; // for CSV export
 
 // ============ Rendering ============
-function setStatus(msg){ $("status").textContent = msg; }
+function setStatus(msg, showLoading = false){ 
+  const statusEl = $("status");
+  if (showLoading) {
+    statusEl.innerHTML = `
+      <span>${msg}</span>
+      <span class="loading-dots">
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+      </span>
+    `;
+  } else {
+    statusEl.textContent = msg;
+  }
+}
 function setInfoSetLabel(){
   if (ACTIVE_INDEX<0) {$("setinfo").innerHTML=""; return;}
   $("setinfo").innerHTML = `Active set: <b>Set ${String.fromCharCode(65+ACTIVE_INDEX)}</b> <span class="pill">${QUIZ_SETS[ACTIVE_INDEX].length} questions</span>`;
@@ -2114,7 +2216,7 @@ function resetToRandomSet(){
 // ============ Generate quizzes pipeline ============
 async function generateQuizzes(){
   try{
-    setStatus("Extracting text...");
+    setStatus("Extracting text", true);
     const files = $("pdfInput").files;
     if (!files || !files.length){ setStatus("Please select at least one PDF."); return; }
     SLIDES_TEXT = await extractTextFromFiles(files);
@@ -2143,26 +2245,32 @@ async function generateQuizzes(){
 
     QUIZ_SETS = [];
     if (useLLM && apikey){
-      setStatus("Generating with Gemini (may take a moment)...");
+      setStatus("Generating with Gemini (may take a moment)", true);
       const slices = sliceForSets(SLIDES_TEXT, numSets);
       for (let i=0;i<numSets;i++){
+        setStatus(`Generating set ${i+1} of ${numSets} with Gemini`, true);
         const qset = await generateSetWithGemini(slices[i], perSet, apikey, 0.7);
         QUIZ_SETS.push(qset);
       }
     } else {
-      setStatus("No API key or LLM disabled — using fallback generator.");
+      setStatus("Generating questions with fallback method", true);
       for (let i=0;i<numSets;i++){
+        setStatus(`Creating set ${i+1} of ${numSets}`, true);
         const qset = heuristicGenerate(SLIDES_TEXT, perSet, RNG);
         QUIZ_SETS.push(qset);
       }
     }
-    setStatus("Done. Loading a random set...");
+    setStatus("Done. Loading a random set", true);
     ACTIVE_INDEX = randInt(QUIZ_SETS.length);
     setInfoSetLabel();
     START_TIME = Date.now();
     $("timer").textContent = "";
     renderQuiz();
-    setStatus("Ready.");
+    
+    // Small delay before showing "Ready" to let the UI update
+    setTimeout(() => {
+      setStatus("Ready.");
+    }, 500);
   } catch(e){
     console.error(e);
     setStatus("Error: "+e.message);
@@ -2182,6 +2290,7 @@ function sliceForSets(text, k){
 
 // ============ Tutor chat (Gemini) ============
 const chatlog = $("chatlog");
+
 function addMsg(text, who='bot'){
   const wrap = document.createElement('div');
   wrap.className = 'msg '+who;
@@ -2191,6 +2300,36 @@ function addMsg(text, who='bot'){
   wrap.appendChild(bubble);
   chatlog.appendChild(wrap);
   chatlog.scrollTop = chatlog.scrollHeight;
+}
+
+function showTypingIndicator() {
+  const wrap = document.createElement('div');
+  wrap.className = 'msg bot typing-message';
+  wrap.id = 'typing-indicator';
+  
+  const indicator = document.createElement('div');
+  indicator.className = 'typing-indicator';
+  
+  const dots = document.createElement('div');
+  dots.className = 'typing-dots';
+  
+  for (let i = 0; i < 3; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'typing-dot';
+    dots.appendChild(dot);
+  }
+  
+  indicator.appendChild(dots);
+  wrap.appendChild(indicator);
+  chatlog.appendChild(wrap);
+  chatlog.scrollTop = chatlog.scrollHeight;
+}
+
+function hideTypingIndicator() {
+  const indicator = document.getElementById('typing-indicator');
+  if (indicator) {
+    indicator.remove();
+  }
 }
 addMsg("Hi! I'm your AI tutor. Upload slides first, then ask me for hints and explanations based on them. I'll help you understand concepts without giving away quiz answers! 🎓", 'bot');
 
@@ -2309,12 +2448,24 @@ async function sendMsg(){
   const txtEl = $("chattext");
   const userText = txtEl.value.trim();
   if (!userText) return;
+  
+  // Add user message
   addMsg(userText, 'me');
   txtEl.value = "";
+  
   if (!key){
-    addMsg("Please paste your Gemini API key above to chat.", 'bot');
+    // Show typing indicator briefly for better UX
+    showTypingIndicator();
+    setTimeout(() => {
+      hideTypingIndicator();
+      addMsg("Please paste your Gemini API key above to chat.", 'bot');
+    }, 800);
     return;
   }
+  
+  // Show typing indicator
+  showTypingIndicator();
+  
   const systemHint = `You are a helpful tutor grounded on provided slide text. Give short, clear, step-by-step hints.
 Do NOT give direct answers to the quiz; explain concepts or provide similar examples.
 Slides context (trimmed):
@@ -2330,6 +2481,10 @@ Slides context (trimmed):
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify(payload)
     });
+    
+    // Hide typing indicator
+    hideTypingIndicator();
+    
     if (!resp.ok){
       const t = await resp.text();
       addMsg("Error from API: " + t, 'bot');
@@ -2339,6 +2494,8 @@ Slides context (trimmed):
     const text = (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) || "No response text.";
     addMsg(text, 'bot');
   } catch (e){
+    // Hide typing indicator on error
+    hideTypingIndicator();
     addMsg("Network error: " + e.message, 'bot');
   }
 }
