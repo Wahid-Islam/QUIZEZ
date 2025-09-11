@@ -717,7 +717,7 @@
   .control-buttons {
     display: flex;
     gap: var(--space-3);
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-2);
   }
 
   /* Tutor Section */
@@ -1207,11 +1207,11 @@
         <div id="quiz" role="form" aria-label="Quiz questions"></div>
         <div class="controls">
           <div class="control-buttons">
-            <button class="primary" onclick="grade()">
+            <button class="primary" onclick="grade()" style="margin-left: 12px; margin-top: 10px;">
               <span class="button-icon">📊</span>
               Grade my quiz
             </button>
-            <button onclick="resetToRandomSet()">
+            <button onclick="resetToRandomSet()" style="margin-top: 12px;">
               <span class="button-icon">🎲</span>
               New random set
             </button>
