@@ -216,6 +216,163 @@
     border-color: var(--brand-primary-active);
   }
 
+  /* Animated Star Button (for Generate Quiz button) */
+  button.star-button {
+    position: relative;
+    padding: 12px 35px;
+    background: #fec195;
+    font-size: 17px;
+    font-weight: 500;
+    color: #181818;
+    border: 3px solid #fec195;
+    border-radius: 8px;
+    box-shadow: 0 0 0 #fec1958c;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  button.star-button:hover {
+    background: transparent;
+    color: #fec195;
+    box-shadow: 0 0 25px #fec1958c;
+    transform: none;
+  }
+
+  button.star-button:active {
+    transform: scale(0.98);
+  }
+
+  .star-1 {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 25px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96);
+  }
+
+  .star-2 {
+    position: absolute;
+    top: 45%;
+    left: 45%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+
+  .star-3 {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 1s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+
+  .star-4 {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    width: 8px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+
+  .star-5 {
+    position: absolute;
+    top: 25%;
+    left: 45%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01);
+  }
+
+  .star-6 {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 0 #fffdef);
+    z-index: -5;
+    transition: all 0.8s ease;
+  }
+
+  button.star-button:hover .star-1 {
+    position: absolute;
+    top: -80%;
+    left: -30%;
+    width: 25px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+
+  button.star-button:hover .star-2 {
+    position: absolute;
+    top: -25%;
+    left: 10%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+
+  button.star-button:hover .star-3 {
+    position: absolute;
+    top: 55%;
+    left: 25%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+
+  button.star-button:hover .star-4 {
+    position: absolute;
+    top: 30%;
+    left: 80%;
+    width: 8px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+
+  button.star-button:hover .star-5 {
+    position: absolute;
+    top: 25%;
+    left: 115%;
+    width: 15px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+
+  button.star-button:hover .star-6 {
+    position: absolute;
+    top: 5%;
+    left: 60%;
+    width: 5px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #fffdef);
+    z-index: 2;
+  }
+
+  .fil0 {
+    fill: #fffdef;
+  }
+
   /* Input System */
   input[type="text"], 
   input[type="number"], 
@@ -775,10 +932,6 @@
     flex-wrap: wrap;
   }
 
-  .button-icon {
-    margin-right: var(--space-2);
-    font-size: 16px;
-  }
 
   .status-message {
     color: var(--text-tertiary);
@@ -897,16 +1050,17 @@
     background: var(--error);
     color: var(--text-inverse);
     border: none;
-    padding: var(--space-2);
+    padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-base);
     cursor: pointer;
     font-size: 12px;
-    min-width: 36px;
+    min-width: auto;
     height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    font-weight: 500;
   }
 
   .api-clear-btn:hover {
@@ -914,21 +1068,17 @@
     transform: scale(1.05);
   }
 
-  .api-clear-btn .button-icon {
-    margin: 0;
-    font-size: 14px;
-  }
-
   .api-status {
     position: absolute;
-    right: 50px;
+    right: 65px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     padding: var(--space-1) var(--space-2);
     border-radius: var(--radius-base);
     pointer-events: none;
+    z-index: 10;
   }
 
   .api-status.saved {
@@ -1321,16 +1471,64 @@
             Use Gemini AI to generate questions (Auto-enabled with API key)
           </label>
         </div>
-        <div class="action-row">
-          <button class="primary" onclick="generateQuizzes()" aria-describedby="status">
-            <span class="button-icon">🚀</span>
+        <div class="action-row" style="justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: var(--space-3);">
+            <button class="star-button" onclick="generateQuizzes()" aria-describedby="status">
+              <svg class="star-1" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-2" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-3" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-4" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-5" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-6" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
             Generate quizzes
           </button>
+            <div id="status" class="status-message" aria-live="polite"></div>
+          </div>
           <button onclick="resetToRandomSet()">
-            <span class="button-icon">🔄</span>
             Reset (random set)
           </button>
-          <div id="status" class="status-message" aria-live="polite"></div>
         </div>
       </section>
 
@@ -1344,12 +1542,58 @@
         <div id="quiz" role="form" aria-label="Quiz questions"></div>
         <div class="controls">
           <div class="control-buttons">
-            <button class="primary" onclick="grade()" style="margin-left: 12px; margin-top: 10px;">
-              <span class="button-icon">📊</span>
+            <button class="star-button" onclick="grade()" style="margin-left: 12px; margin-top: 10px;">
+              <svg class="star-1" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-2" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-3" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-4" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-5" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
+              <svg class="star-6" viewBox="0 0 784.11 815.53">
+                <defs>
+                  <style>.fil0{fill:#fffdef}</style>
+                </defs>
+                <g>
+                  <path class="fil0" d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.75 20.93,-210.07 184.09,-378.38 392.06,-407.75 -207.98,-29.38 -371.14,-197.69 -392.06,-407.78z"/>
+                </g>
+              </svg>
               Grade my quiz
             </button>
             <button onclick="resetToRandomSet()" style="margin-top: 12px;">
-              <span class="button-icon">🎲</span>
               New random set
             </button>
           </div>
@@ -1371,7 +1615,7 @@
           <div class="api-input-group">
             <input type="password" id="apikey" placeholder="Enter your Gemini API key" aria-describedby="api-hint"/>
             <button type="button" class="api-clear-btn" onclick="clearApiKey()" title="Clear API key">
-              <span class="button-icon">🗑️</span>
+              Clear
             </button>
             <div class="api-status" id="api-status"></div>
           </div>
@@ -1386,7 +1630,6 @@
           <div class="chat-input">
             <input type="text" id="chattext" placeholder="Ask about concepts from your slides..." aria-label="Chat message"/>
             <button onclick="sendMsg()" aria-label="Send message">
-              <span class="button-icon">📤</span>
               Send
             </button>
           </div>
@@ -1611,7 +1854,7 @@ function generateGenericQuestions(n) {
       {
         q: `What is a fundamental principle in effective study? (Question ${selected.length + 1})`,
         opts: ["Consistent practice and review", "Cramming before tests", "Avoiding challenging material", "Studying without breaks"],
-        ans: 0,
+      ans: 0,
         exp: "Consistent practice and regular review strengthen understanding and retention."
       },
       {
@@ -2269,7 +2512,7 @@ async function generateQuizzes(){
     
     // Small delay before showing "Ready" to let the UI update
     setTimeout(() => {
-      setStatus("Ready.");
+    setStatus("Ready.");
     }, 500);
   } catch(e){
     console.error(e);
@@ -2342,8 +2585,8 @@ function updateApiStatus() {
   if (!statusEl) return;
   
   if (apiKey) {
-    statusEl.textContent = '✓ Saved';
-    statusEl.className = 'api-status saved';
+    statusEl.textContent = '✓';
+    statusEl.className = 'api-status saved'; 
     // Automatically turn ON Gemini AI when API key is present
     if (useLLMCheckbox && !useLLMCheckbox.checked) {
       useLLMCheckbox.checked = true;
@@ -2458,7 +2701,7 @@ async function sendMsg(){
     showTypingIndicator();
     setTimeout(() => {
       hideTypingIndicator();
-      addMsg("Please paste your Gemini API key above to chat.", 'bot');
+    addMsg("Please paste your Gemini API key above to chat.", 'bot');
     }, 800);
     return;
   }
