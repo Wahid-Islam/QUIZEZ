@@ -982,7 +982,6 @@
 
   /* Enhanced Feedback Styling */
   .feedback-container {
-    max-height: 600px;
     overflow-y: auto;
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-md);
@@ -1556,7 +1555,7 @@ function grade(){
     <div class="feedback-container">
       <div class="feedback-header-controls">
         <h4 class="feedback-title">📝 Detailed Results (${qs.length} questions)</h4>
-        <button class="feedback-toggle" onclick="toggleFeedbackHeight()">Expand</button>
+        <button class="feedback-toggle" onclick="resetToRandomSet()">🎲 Restart (Random Set)</button>
       </div>
       <div class="feedback-content">
         ${rows.join('')}
@@ -1810,21 +1809,6 @@ Slides context (trimmed):
   }
 }
 
-// ============ Feedback Toggle ============
-function toggleFeedbackHeight() {
-  const container = document.querySelector('.feedback-container');
-  const button = document.querySelector('.feedback-toggle');
-  
-  if (!container || !button) return;
-  
-  if (container.style.maxHeight === 'none' || container.style.maxHeight === '') {
-    container.style.maxHeight = '600px';
-    button.textContent = 'Expand';
-  } else {
-    container.style.maxHeight = 'none';
-    button.textContent = 'Collapse';
-  }
-}
 
 </script>
 </body>
