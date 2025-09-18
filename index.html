@@ -1186,6 +1186,40 @@
     outline-offset: 2px;
   }
 
+  /* Checkbox Styling for Multiple Answer Questions */
+  .opt input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-primary);
+    border-radius: 4px;
+    background: var(--surface);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .opt input[type="checkbox"]:checked {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary);
+  }
+
+  .opt input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--text-inverse);
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .opt input[type="checkbox"]:focus {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+  }
+
   /* Enhanced Scorecard */
   .scorecard {
     background: linear-gradient(135deg, var(--success-bg) 0%, #f0fdf4 100%);
@@ -1421,11 +1455,949 @@
   * {
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
+
+  /* Progress Button Styling */
+  .progress-btn {
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    color: var(--text-inverse);
+    border: none;
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-base);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: var(--space-3);
+  }
+
+  .progress-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, var(--brand-primary-hover), var(--brand-primary));
+  }
+
+  .progress-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* No Progress Data Styling */
+  .no-progress-content {
+    text-align: center;
+    padding: var(--space-8);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .no-progress-icon {
+    font-size: 64px;
+    margin-bottom: var(--space-4);
+  }
+
+  .no-progress-content h3 {
+    margin: 0 0 var(--space-3) 0;
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .no-progress-content p {
+    margin: 0 0 var(--space-6) 0;
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .progress-features {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    margin: var(--space-6) 0;
+    text-align: left;
+  }
+
+  .progress-features h4 {
+    margin: 0 0 var(--space-3) 0;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .progress-features ul {
+    margin: 0;
+    padding-left: var(--space-5);
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .progress-features li {
+    margin-bottom: var(--space-2);
+  }
+
+  .get-started-btn {
+    background: linear-gradient(135deg, var(--success), #10b981);
+    color: var(--text-inverse);
+    border: none;
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-base);
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  }
+
+  .get-started-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    background: linear-gradient(135deg, #10b981, var(--success));
+  }
+
+  /* ========== SPECTACULAR ANIMATED LOGO ========== */
+  .animated-logo {
+    position: relative;
+    text-align: center;
+    margin: var(--space-6) 0 var(--space-8) 0;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    z-index: 2;
+  }
+
+  /* ===== SLIDE STACK ANIMATION ===== */
+  .slide-stack {
+    position: relative;
+    width: 60px;
+    height: 45px;
+    margin-right: var(--space-4);
+  }
+
+  .slide {
+    position: absolute;
+    width: 50px;
+    height: 35px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    animation: slideFloat 4s ease-in-out infinite;
+  }
+
+  .slide-1 {
+    top: 0;
+    left: 0;
+    z-index: 3;
+    animation-delay: 0s;
+  }
+
+  .slide-2 {
+    top: 5px;
+    left: 5px;
+    z-index: 2;
+    animation-delay: 0.5s;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+  }
+
+  .slide-3 {
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    animation-delay: 1s;
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+  }
+
+  @keyframes slideFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(1deg); }
+    50% { transform: translateY(-8px) rotate(0deg); }
+    75% { transform: translateY(-3px) rotate(-1deg); }
+  }
+
+  /* ===== ANIMATED ARROW ===== */
+  .arrow-container {
+    position: relative;
+    width: 80px;
+    height: 20px;
+    margin: 0 var(--space-4);
+  }
+
+  .arrow-segment {
+    position: absolute;
+    height: 4px;
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+    border-radius: 2px;
+    animation: arrowGlow 2s ease-in-out infinite;
+  }
+
+  .arrow-1 {
+    width: 30px;
+    top: 8px;
+    left: 0;
+    animation-delay: 0s;
+  }
+
+  .arrow-2 {
+    width: 25px;
+    top: 8px;
+    left: 25px;
+    animation-delay: 0.3s;
+  }
+
+  .arrow-tip {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid var(--brand-primary);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    animation: arrowPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes arrowGlow {
+    0%, 100% { 
+      box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+      transform: scaleX(1);
+    }
+    50% { 
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+      transform: scaleX(1.1);
+    }
+  }
+
+  @keyframes arrowPulse {
+    0%, 100% { 
+      filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
+      transform: translateX(0);
+    }
+    50% { 
+      filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.8));
+      transform: translateX(5px);
+    }
+  }
+
+  /* ===== QUIZ CIRCLES ANIMATION ===== */
+  .quiz-icon {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-left: var(--space-4);
+  }
+
+  .quiz-circle {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: quizOrbit 8s linear infinite;
+  }
+
+  .quiz-a {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    animation-delay: 0s;
+  }
+
+  .quiz-b {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    animation-delay: 2s;
+  }
+
+  .quiz-c {
+    background: linear-gradient(135deg, #45b7d1, #096bde);
+    animation-delay: 4s;
+  }
+
+  .quiz-d {
+    background: linear-gradient(135deg, #f9ca24, #f0932b);
+    animation-delay: 6s;
+  }
+
+  @keyframes quizOrbit {
+    0% { 
+      transform: rotate(0deg) translateX(30px) rotate(0deg) scale(1);
+    }
+    25% { 
+      transform: rotate(90deg) translateX(30px) rotate(-90deg) scale(1.2);
+    }
+    50% { 
+      transform: rotate(180deg) translateX(30px) rotate(-180deg) scale(1);
+    }
+    75% { 
+      transform: rotate(270deg) translateX(30px) rotate(-270deg) scale(1.2);
+    }
+    100% { 
+      transform: rotate(360deg) translateX(30px) rotate(-360deg) scale(1);
+    }
+  }
+
+  /* ===== ANIMATED TEXT ===== */
+  .logo-text {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: var(--space-4);
+  }
+
+  .word-slide {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textGlow 3s ease-in-out infinite;
+  }
+
+  .arrow-text {
+    font-size: 36px;
+    color: var(--brand-primary);
+    animation: arrowBounce 2s ease-in-out infinite;
+  }
+
+  .word-quiz {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textGlow 3s ease-in-out infinite 1s;
+  }
+
+  .word-generator {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textGlow 3s ease-in-out infinite 2s;
+    font-size: 24px;
+    margin-left: var(--space-2);
+  }
+
+  @keyframes textGlow {
+    0%, 100% { 
+      filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.3));
+      transform: scale(1);
+    }
+    50% { 
+      filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.6));
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes arrowBounce {
+    0%, 100% { transform: translateX(0) scale(1); }
+    50% { transform: translateX(5px) scale(1.1); }
+  }
+
+  /* ===== FLOATING PARTICLES ===== */
+  .logo-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.8), rgba(59, 130, 246, 0.2));
+    border-radius: 50%;
+    animation: particleFloat 6s ease-in-out infinite;
+  }
+
+  .particle-1 {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .particle-2 {
+    top: 40%;
+    left: 80%;
+    animation-delay: 1s;
+  }
+
+  .particle-3 {
+    top: 60%;
+    left: 20%;
+    animation-delay: 2s;
+  }
+
+  .particle-4 {
+    top: 80%;
+    left: 70%;
+    animation-delay: 3s;
+  }
+
+  .particle-5 {
+    top: 30%;
+    left: 50%;
+    animation-delay: 4s;
+  }
+
+  .particle-6 {
+    top: 70%;
+    left: 40%;
+    animation-delay: 5s;
+  }
+
+  @keyframes particleFloat {
+    0%, 100% { 
+      transform: translateY(0) scale(1);
+      opacity: 0.7;
+    }
+    25% { 
+      transform: translateY(-20px) scale(1.2);
+      opacity: 1;
+    }
+    50% { 
+      transform: translateY(-30px) scale(1);
+      opacity: 0.8;
+    }
+    75% { 
+      transform: translateY(-15px) scale(1.1);
+      opacity: 0.9;
+    }
+  }
+
+  /* ===== HOVER INTERACTIONS ===== */
+  .animated-logo:hover .slide {
+    animation-duration: 2s;
+  }
+
+  .animated-logo:hover .quiz-circle {
+    animation-duration: 4s;
+  }
+
+  .animated-logo:hover .arrow-segment,
+  .animated-logo:hover .arrow-tip {
+    animation-duration: 1s;
+  }
+
+  .animated-logo:hover .particle {
+    animation-duration: 3s;
+  }
+
+  /* ===== RESPONSIVE DESIGN ===== */
+  @media (max-width: 768px) {
+    .logo-container {
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    
+    .slide-stack,
+    .arrow-container,
+    .quiz-icon {
+      margin: 0;
+    }
+    
+    .logo-text {
+      font-size: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .word-generator {
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo-text {
+      font-size: 20px;
+    }
+    
+    .word-generator {
+      font-size: 16px;
+    }
+    
+    .slide,
+    .quiz-circle {
+      transform: scale(0.8);
+    }
+  }
+
+  /* ========== ELEGANT HERO SUBTITLE ========== */
+  .hero-subtitle {
+    margin: var(--space-6) auto var(--space-8) auto;
+    max-width: 900px;
+    text-align: center;
+  }
+
+  .subtitle-container {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6) var(--space-8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .subtitle-main {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: var(--space-5);
+    line-height: 1.4;
+  }
+
+  .gemini-highlight {
+    background: linear-gradient(135deg, #4285f4, #34a853, #fbbc05, #ea4335);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+    font-size: 22px;
+  }
+
+  .subtitle-features {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-full);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .feature-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature-icon {
+    font-size: 16px;
+    opacity: 0.9;
+  }
+
+  .feature-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  /* ===== RESPONSIVE SUBTITLE ===== */
+  @media (max-width: 768px) {
+    .hero-subtitle {
+      margin: var(--space-4) var(--space-3) var(--space-6) var(--space-3);
+    }
+    
+    .subtitle-container {
+      padding: var(--space-4) var(--space-5);
+    }
+    
+    .subtitle-main {
+      font-size: 18px;
+    }
+    
+    .gemini-highlight {
+      font-size: 20px;
+    }
+    
+    .subtitle-features {
+      gap: var(--space-2);
+    }
+    
+    .feature-item {
+      padding: var(--space-1) var(--space-3);
+    }
+    
+    .feature-text {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .subtitle-main {
+      font-size: 16px;
+      margin-bottom: var(--space-3);
+    }
+    
+    .gemini-highlight {
+      font-size: 18px;
+    }
+    
+    .subtitle-features {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    
+    .feature-item {
+      min-width: 200px;
+      justify-content: center;
+    }
+  }
+
+  /* Progress Dashboard Styles */
+  .progress-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-4);
+    overflow-y: auto;
+  }
+
+  .progress-dashboard {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    max-width: 1200px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  .progress-header h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .close-btn {
+    background: var(--error);
+    color: var(--text-inverse);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-btn:hover {
+    background: #dc2626;
+    transform: scale(1.05);
+  }
+
+  .progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  .progress-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+  }
+
+  .progress-card h3 {
+    margin: 0 0 var(--space-4) 0;
+    color: var(--text-primary);
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  .stat {
+    text-align: center;
+    padding: var(--space-3);
+    background: var(--surface);
+    border-radius: var(--radius-base);
+    border: 1px solid var(--border-primary);
+  }
+
+  .stat-value {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--brand-primary);
+    margin-bottom: var(--space-1);
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .topic-list, .session-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .topic-item, .session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3);
+    background: var(--surface);
+    border-radius: var(--radius-base);
+    border: 1px solid var(--border-primary);
+  }
+
+  .topic-name, .session-topic {
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  .topic-stats, .session-item > div:not(.session-topic) {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .topic-score, .session-score {
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  .topic-score.good, .session-score.good {
+    background: var(--success-bg);
+    color: var(--success);
+  }
+
+  .topic-score.okay, .session-score.okay {
+    background: var(--warning-bg);
+    color: var(--warning);
+  }
+
+  .topic-score.needs-work, .session-score.needs-work {
+    background: var(--error-bg);
+    color: var(--error);
+  }
+
+  .topic-attempts, .topic-best, .session-date, .session-time {
+    color: var(--text-tertiary);
+    font-size: 11px;
+  }
+
+  .weak-areas {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .weak-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    background: var(--error-bg);
+    border: 1px solid var(--error-border);
+    border-radius: var(--radius-base);
+  }
+
+  .weak-concept {
+    font-weight: 600;
+    color: var(--error);
+  }
+
+  .weak-topic {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .weak-count {
+    font-size: 12px;
+    color: var(--error);
+    font-weight: 600;
+  }
+
+  .no-weak-areas {
+    text-align: center;
+    padding: var(--space-4);
+    color: var(--success);
+    font-weight: 600;
+    background: var(--success-bg);
+    border-radius: var(--radius-base);
+  }
+
+  .progress-actions {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-primary);
+  }
+
+  .export-btn, .clear-btn {
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .export-btn {
+    background: var(--brand-primary);
+    color: var(--text-inverse);
+    border: none;
+  }
+
+  .export-btn:hover {
+    background: var(--brand-primary-hover);
+    transform: translateY(-1px);
+  }
+
+  .clear-btn {
+    background: var(--surface);
+    color: var(--error);
+    border: 1px solid var(--error);
+  }
+
+  .clear-btn:hover {
+    background: var(--error);
+    color: var(--text-inverse);
+  }
+
+  @media (max-width: 768px) {
+    .progress-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .stat-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .progress-actions {
+      flex-direction: column;
+    }
+    
+    .topic-item, .session-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2);
+    }
+  }
 </style>
 </head>
 <body>
-  <h1>📚 Slide→Quiz Generator</h1>
-  <div class="sub">Upload PDF slides. Pick how many questions and sets. Generate quizzes with <b>Gemini</b> (or use fallback if no key). Random set loads on reset. Tutor panel on the right.</div>
+  <div class="animated-logo">
+    <div class="logo-container">
+      <div class="logo-icon">
+        <div class="slide-stack">
+          <div class="slide slide-1"></div>
+          <div class="slide slide-2"></div>
+          <div class="slide slide-3"></div>
+        </div>
+        <div class="arrow-container">
+          <div class="arrow-segment arrow-1"></div>
+          <div class="arrow-segment arrow-2"></div>
+          <div class="arrow-tip"></div>
+        </div>
+        <div class="quiz-icon">
+          <div class="quiz-circle quiz-a">A</div>
+          <div class="quiz-circle quiz-b">B</div>
+          <div class="quiz-circle quiz-c">C</div>
+          <div class="quiz-circle quiz-d">D</div>
+        </div>
+      </div>
+      <div class="logo-text">
+        <span class="word-slide">Slide</span>
+        <span class="arrow-text">→</span>
+        <span class="word-quiz">Quiz</span>
+        <span class="word-generator">Generator</span>
+      </div>
+    </div>
+    <div class="logo-particles">
+      <div class="particle particle-1"></div>
+      <div class="particle particle-2"></div>
+      <div class="particle particle-3"></div>
+      <div class="particle particle-4"></div>
+      <div class="particle particle-5"></div>
+      <div class="particle particle-6"></div>
+    </div>
+  </div>
+  <div class="hero-subtitle">
+    <div class="subtitle-container">
+      <div class="subtitle-main">
+        Transform your PDF slides into interactive quizzes powered by <span class="gemini-highlight">Gemini AI</span>
+      </div>
+      <div class="subtitle-features">
+        <div class="feature-item">
+          <span class="feature-icon">📚</span>
+          <span class="feature-text">Upload PDF slides</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">⚙️</span>
+          <span class="feature-text">Customize questions & sets</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🤖</span>
+          <span class="feature-text">AI-powered generation</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">🎲</span>
+          <span class="feature-text">Smart randomization</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">💬</span>
+          <span class="feature-text">Interactive tutor</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="layout">
     <main class="left">
@@ -1528,6 +2500,9 @@
           </div>
           <button onclick="resetToRandomSet()">
             Reset (random set)
+          </button>
+          <button onclick="showProgressDashboard()" class="progress-btn">
+            📊 Progress
           </button>
         </div>
       </section>
@@ -1776,10 +2751,19 @@ async function analyzeImageWithGemini(base64Image, apiKey, fileName, pageNum) {
 3. Any data, numbers, or statistics shown
 4. Diagram labels, chart titles, and figure captions
 5. Important relationships or processes illustrated
+6. **CRITICAL**: Any programming code, regex patterns, or technical syntax
+7. **PRESERVE**: Special characters like *, +, ?, ^, $, [], {}, (), |, \\ exactly as shown
+8. **TECHNICAL CONTENT**: Function calls, variable names, code snippets, command syntax
+
+SPECIAL ATTENTION FOR TECHNICAL CONTENT:
+- If you see regex patterns (*, +, ?, ^, $, \\d, \\w, \\s, [a-z], etc.), preserve them exactly
+- If you see programming code or syntax, include it verbatim
+- Don't ignore or simplify technical symbols and patterns
+- Include any code examples, function definitions, or command syntax
 
 Format the response as clear, educational content that could be used to generate quiz questions. Focus on extractable knowledge rather than visual descriptions.
 
-If this appears to be a slide presentation, extract the main learning objectives and key points.`;
+If this appears to be a slide presentation, extract the main learning objectives and key points, paying special attention to any technical or programming content.`;
 
     const payload = {
       contents: [{
@@ -1893,13 +2877,44 @@ function heuristicGenerate(text, n, rng){
   const keyTerms = extractKeyTerms(text);
   const sentences = extractGoodSentences(text);
   
+  // Check if this is primarily regex content - be much more specific to avoid false positives
+  const regexTermCount = (text.match(/regex|regular\s+expression/gi) || []).length;
+  const specificRegexTerms = /metacharacter|character\s+class|quantifier.*(?:regex|\+|\*|\?)|\\[dwsWDS]|pythex|regexper|\[\^[^\]]*\]|\{[0-9,]+\}/i.test(text);
+  const isRegexDocument = regexTermCount >= 2 || specificRegexTerms;
+  
+  // If this appears to be regex content, prioritize regex questions
+  if (isRegexDocument) {
+    console.log("Detected regex content - generating ONLY regex questions");
+    
+    // Generate ALL regex questions for regex documents
+    const maxAttempts = n * 5; // More attempts to ensure we get enough
+    
+    for (let i = 0; i < maxAttempts && questions.length < n; i++) {
+      const regexQ = generateRegexQuestion(keyTerms, text, rng);
+      if (regexQ && !usedContent.has(regexQ.q)) {
+        usedContent.add(regexQ.q);
+        questions.push(regexQ);
+      }
+    }
+    
+    // If we have enough regex questions, return them directly
+    if (questions.length >= n) {
+      console.log(`Generated ${questions.length} regex questions`);
+      return questions.slice(0, n);
+    }
+    
+    console.log(`Only generated ${questions.length} regex questions, need ${n - questions.length} more`);
+  }
+  
   // Question type generators
   const generators = [
     () => generateDefinitionQuestion(keyTerms, text, rng),
     () => generateFillInBlankQuestion(sentences, rng),
     () => generateConceptualQuestion(keyTerms, text, rng),
     () => generateComparisonQuestion(keyTerms, text, rng),
-    () => generateApplicationQuestion(keyTerms, text, rng)
+    () => generateApplicationQuestion(keyTerms, text, rng),
+    () => generateRegexQuestion(keyTerms, text, rng),
+    () => generateCodePatternQuestion(keyTerms, text, rng)
   ];
   
   // Generate diverse questions
@@ -1925,7 +2940,11 @@ function heuristicGenerate(text, n, rng){
 function extractKeyTerms(text) {
   const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'this', 'that', 'these', 'those', 'page']);
   
-  // Extract words that appear frequently and are likely important
+  // First extract regex patterns and code snippets
+  const regexPatterns = extractRegexPatterns(text);
+  const codeTerms = extractCodeTerms(text);
+  
+  // Extract regular words that appear frequently and are likely important
   const words = text.toLowerCase()
     .replace(/[^\w\s]/g, ' ')
     .split(/\s+/)
@@ -1937,29 +2956,113 @@ function extractKeyTerms(text) {
   });
   
   // Get terms that appear multiple times, suggesting importance
-  return Object.entries(wordCount)
+  const regularTerms = Object.entries(wordCount)
     .filter(([word, count]) => count >= 2)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 50)
+    .slice(0, 40)
     .map(([word]) => word);
+  
+  // Combine regular terms with regex patterns and code terms
+  return [...regularTerms, ...regexPatterns, ...codeTerms].slice(0, 50);
+}
+
+function extractRegexPatterns(text) {
+  const patterns = [];
+  
+  // Common regex pattern formats
+  const regexFormats = [
+    // Patterns between forward slashes: /pattern/flags
+    /\/([^\/\n]{2,50})\/[gimsuxy]*/g,
+    // Patterns in quotes that look like regex
+    /['"]\s*([\\^$.*+?{}()|[\]]{2,}[^'"]*)\s*['"]/g,
+    // Common regex symbols in educational context
+    /([\\^$.*+?{}()|[\]]+)/g
+  ];
+  
+  regexFormats.forEach(regex => {
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      const pattern = match[1] || match[0];
+      if (pattern && pattern.length >= 2 && pattern.length <= 50) {
+        patterns.push(pattern.trim());
+      }
+    }
+  });
+  
+  // Also look for common regex metacharacters and quantifiers
+  const regexTerms = [
+    '.*', '.+', '.?', '^', '$', '\\d', '\\w', '\\s', 
+    '*', '+', '?', '{n}', '{n,}', '{n,m}', 
+    '[a-z]', '[0-9]', '[^]', '()', '|', '\\'
+  ];
+  
+  regexTerms.forEach(term => {
+    if (text.includes(term)) {
+      patterns.push(term);
+    }
+  });
+  
+  return [...new Set(patterns)].slice(0, 10); // Remove duplicates, limit to 10
+}
+
+function extractCodeTerms(text) {
+  const codeTerms = [];
+  
+  // Look for programming/technical terms that might get stripped
+  const technicalPatterns = [
+    // Function calls with parentheses
+    /\b(\w+)\s*\([^)]*\)/g,
+    // Variable assignments
+    /\b(\w+)\s*=\s*[^;,\n]+/g,
+    // Method calls with dots
+    /\b(\w+\.\w+)/g,
+    // Common programming constructs
+    /\b(if|else|for|while|function|class|return|var|let|const|def|import|export)\b/g
+  ];
+  
+  technicalPatterns.forEach(pattern => {
+    let match;
+    while ((match = pattern.exec(text)) !== null) {
+      const term = match[1];
+      if (term && term.length >= 2 && term.length <= 30) {
+        codeTerms.push(term);
+      }
+    }
+  });
+  
+  return [...new Set(codeTerms)].slice(0, 10); // Remove duplicates, limit to 10
 }
 
 function extractGoodSentences(text) {
   return text.split(/(?<=[\.\?\!])\s+/)
     .filter(s => s.length > 40 && s.length < 200)
-    .filter(s => !s.match(/^(page|chapter|\d+|figure|table)/i))
+    .filter(s => !s.match(/^(page|chapter|\d+|figure|table|file:|=====|pdf)/i))
+    .filter(s => !s.includes('===== FILE:'))
+    .filter(s => !s.includes('# Page'))
     .slice(0, 100); // Limit for performance
 }
 
 function generateDefinitionQuestion(keyTerms, text, rng) {
   if (keyTerms.length === 0) return null;
   
-  const term = keyTerms[Math.floor(rng() * Math.min(keyTerms.length, 20))];
-  const contextSentences = text.toLowerCase().split(/[\.\!\?]/)
-    .filter(s => s.includes(term))
-    .slice(0, 3);
+  // Filter out file paths, page references, and URLs
+  const cleanTerms = keyTerms.filter(term => 
+    !term.includes('file:') && 
+    !term.includes('page') && 
+    !term.includes('.com') && 
+    !term.includes('.org') &&
+    !term.includes('=====') &&
+    term.length > 2 && 
+    term.length < 30 &&
+    !/^[^\w]*$/.test(term) // Not just special characters
+  );
   
-  if (contextSentences.length === 0) return null;
+  if (cleanTerms.length === 0) return null;
+  
+  const term = cleanTerms[Math.floor(rng() * Math.min(cleanTerms.length, 15))];
+  
+  // Skip if term appears to be meaningless or just fragments
+  if (/^(pdf|===|page|\d+)$/i.test(term)) return null;
   
   const templates = [
     `What does the term "${term}" refer to in this context?`,
@@ -1970,18 +3073,21 @@ function generateDefinitionQuestion(keyTerms, text, rng) {
   
   const question = templates[Math.floor(rng() * templates.length)];
   
-  // Generate plausible but incorrect options
-  const distractors = generateSmartDistractors(term, keyTerms, rng);
-  const correctAnswer = generateCorrectDefinition(term, contextSentences[0]);
+  // Generate clean, educational options
+  const cleanOptions = [
+    `A fundamental concept in the subject matter`,
+    `An important technical term discussed in the material`,
+    `A key component of the system being studied`,
+    `A method or approach used in this field`
+  ];
   
-  const opts = shuffle([correctAnswer, ...distractors], rng);
-  const ansIndex = opts.findIndex(opt => opt === correctAnswer);
+  const opts = shuffle(cleanOptions, rng);
   
   return {
     q: question,
     opts: opts,
-    ans: ansIndex,
-    exp: `The term "${term}" appears in the slides in a context that supports this definition.`
+    ans: 0,
+    exp: `The term "${term}" is an important concept covered in the slide material.`
   };
 }
 
@@ -2201,6 +3307,322 @@ function generateEnhancedGenericQuestion(questionNum, keyTerms) {
   return questions[(questionNum - 1) % questions.length];
 }
 
+function generateRegexQuestion(keyTerms, text, rng) {
+  // Check if the text appears to be about regex by looking for regex keywords
+  const isRegexContext = /regex|regular\s+expression|pattern|match|character\s+class|quantifier|metacharacter|anchor|backslash|escape|literal|wildcard|dot|caret|dollar|pipe|alternation|group|capture|bracket|brace|parenthes|repetition|greedy|lazy|pythex|regexper|string|text/i.test(text);
+  
+  // Also check for actual regex patterns in the text
+  const hasRegexPatterns = /[\\^$.*+?{}()|[\]]+|\\[dwsWDS]|\[[^\]]+\]/.test(text);
+  
+  if (!isRegexContext && !hasRegexPatterns) return null;
+  
+  // High-quality regex questions based on common patterns
+  const regexQuestions = [
+    {
+      q: "What does the regular expression [a-z] match?",
+      opts: ["Any lowercase letter from a to z", "The characters a and z only", "All characters between the ranges a to z and A to Z", "All characters between the range a to z"],
+      ans: 0,
+      exp: "Character classes like [a-z] match any single character within the specified range, in this case any lowercase letter."
+    },
+    {
+      q: "Which of these will match the strings revolution, revolutionary, and revolutionaries?",
+      opts: ["revolution[a-z]*", "revolution[a-z]?", "revolution[a-z]+", "revolution[a-z]{1,3}"],
+      ans: 0,
+      exp: "The * quantifier matches zero or more of the preceding element, allowing for any number of additional lowercase letters after 'revolution'."
+    },
+    {
+      q: "Which of these will match the strings revolution, Revolution, and their plural variants only?",
+      opts: ["[rR]evolution[s]?", "revolution[s]+", "[rR]evolution[s]+", "[rR]evolution[s]*"],
+      ans: 0,
+      exp: "The [rR] matches either 'r' or 'R', and [s]? matches an optional 's' for plurals."
+    },
+    {
+      q: "What regular expression matches the strings dog or cat?",
+      opts: ["dog|cat", "dog,cat", "dog | cat", "[dog][cat]"],
+      ans: 0,
+      exp: "The pipe symbol | represents alternation, matching either the pattern before or after it."
+    },
+    {
+      q: "What regular expression matches the whole words dog or cat?",
+      opts: ["\\bdog|cat\\b", "\\bdog\\b | \\bcat\\b", "\\bdog\\b|\\bcat\\b", "dog|cat"],
+      ans: 2,
+      exp: "Word boundaries \\b ensure we match complete words, and the alternation | must be properly grouped."
+    },
+    {
+      q: "What do we put after a character to match strings where that character appears two to four times in sequence?",
+      opts: ["{2,4}", "{2-4}", "[2,4]", "(2,4)"],
+      ans: 0,
+      exp: "Curly braces {} specify exact repetition counts, with {2,4} meaning 2 to 4 occurrences."
+    },
+    {
+      q: "What does the + quantifier mean in regular expressions?",
+      opts: ["One or more occurrences", "Zero or more occurrences", "Zero or one occurrence", "Exactly one occurrence"],
+      ans: 0,
+      exp: "The + quantifier matches one or more instances of the preceding element."
+    },
+    {
+      q: "What does the * quantifier mean in regular expressions?",
+      opts: ["Zero or more occurrences", "One or more occurrences", "Zero or one occurrence", "Exactly one occurrence"],
+      ans: 0,
+      exp: "The * quantifier matches zero or more instances of the preceding element."
+    },
+    {
+      q: "What does the ? quantifier mean in regular expressions?",
+      opts: ["Zero or one occurrence (optional)", "One or more occurrences", "Zero or more occurrences", "Any number of occurrences"],
+      ans: 0,
+      exp: "The ? quantifier makes the preceding element optional, matching zero or one occurrence."
+    },
+    {
+      q: "What does \\d represent in regular expressions?",
+      opts: ["Any digit character (0-9)", "Any letter character", "Any whitespace character", "Any special character"],
+      ans: 0,
+      exp: "\\d is a shorthand character class that matches any digit from 0 to 9."
+    },
+    {
+      q: "What does \\w represent in regular expressions?",
+      opts: ["Word characters (letters, digits, underscore)", "Whitespace characters only", "Any character", "Numbers only"],
+      ans: 0,
+      exp: "\\w matches word characters, which include letters, digits, and underscore."
+    },
+    {
+      q: "What does \\s represent in regular expressions?",
+      opts: ["Whitespace characters (space, tab, newline)", "Any letter character", "Any digit character", "Special characters"],
+      ans: 0,
+      exp: "\\s matches any whitespace character including spaces, tabs, and newlines."
+    },
+    {
+      q: "What does the ^ symbol represent in regular expressions?",
+      opts: ["Start of line or string", "End of line or string", "Any character", "Negation in character class"],
+      ans: 0,
+      exp: "^ is an anchor that matches the beginning of a line or string."
+    },
+    {
+      q: "What does the $ symbol represent in regular expressions?",
+      opts: ["End of line or string", "Start of line or string", "Any character", "Dollar sign literal"],
+      ans: 0,
+      exp: "$ is an anchor that matches the end of a line or string."
+    },
+    {
+      q: "What does [^abc] match in regular expressions?",
+      opts: ["Any character except a, b, or c", "The characters a, b, and c", "The start of line followed by abc", "Any character including a, b, or c"],
+      ans: 0,
+      exp: "^ inside character brackets negates the character class, matching any character NOT in the set."
+    },
+    {
+      q: "What does the . (dot) represent in regular expressions?",
+      opts: ["Any character except newline", "A literal dot", "Any digit", "Any letter"],
+      ans: 0,
+      exp: "The dot is a metacharacter that matches any single character except newline."
+    },
+    {
+      q: "How do you match a literal dot (.) in a regular expression?",
+      opts: ["\\.", "[.]", "\\\\.", "dot"],
+      ans: 0,
+      exp: "To match a literal dot, you must escape it with a backslash: \\."
+    },
+    {
+      q: "What does [0-9] match in regular expressions?",
+      opts: ["Any digit from 0 to 9", "The numbers 0 and 9 only", "Any number", "Any character"],
+      ans: 0,
+      exp: "Character class [0-9] matches any single digit character from 0 to 9."
+    },
+    {
+      q: "Which pattern matches one or more digits?",
+      opts: ["\\d+", "\\d*", "\\d?", "\\d{1}"],
+      ans: 0,
+      exp: "\\d+ matches one or more digit characters (\\d means digit, + means one or more)."
+    },
+    {
+      q: "What does the pattern ^abc$ match?",
+      opts: ["Exactly 'abc' as the complete string", "Any string containing 'abc'", "Strings starting with 'abc'", "Strings ending with 'abc'"],
+      ans: 0,
+      exp: "^ and $ are anchors that match start and end of string, so ^abc$ matches exactly 'abc'."
+    },
+    {
+      q: "How do you create a character class that matches any vowel?",
+      opts: ["[aeiou]", "(a|e|i|o|u)", "\\v", "[vowels]"],
+      ans: 0,
+      exp: "Character classes use square brackets [aeiou] to match any single character in the set."
+    },
+    {
+      q: "What does \\b represent in regular expressions?",
+      opts: ["Word boundary", "Backspace character", "Bold text", "Beginning of string"],
+      ans: 0,
+      exp: "\\b is a word boundary assertion that matches between word and non-word characters."
+    },
+    {
+      q: "Which quantifier makes the preceding element optional?",
+      opts: ["?", "*", "+", "{0,1}"],
+      ans: 0,
+      exp: "The ? quantifier matches zero or one occurrence, making the element optional."
+    },
+    {
+      q: "What does [^0-9] match?",
+      opts: ["Any character except digits", "Any digit", "The caret symbol followed by digits", "Numbers from 0 to 9"],
+      ans: 0,
+      exp: "The caret ^ inside brackets negates the character class, matching anything except digits."
+    },
+    {
+      q: "How do you match exactly 3 digits in a row?",
+      opts: ["\\d{3}", "\\d*3", "\\d+3", "[0-9]3"],
+      ans: 0,
+      exp: "Curly braces specify exact repetition count: \\d{3} matches exactly 3 digits."
+    },
+    {
+      q: "What is the difference between * and + quantifiers?",
+      opts: ["* includes zero occurrences, + requires at least one", "* is greedy, + is lazy", "* matches more, + matches less", "No difference"],
+      ans: 0,
+      exp: "* matches zero or more (including none), while + requires at least one occurrence."
+    },
+    {
+      q: "Which pattern matches a valid email format (basic)?",
+      opts: ["\\w+@\\w+\\.\\w+", "\\w*@\\w*\\.\\w*", "[a-z]+@[a-z]+\\.[a-z]+", "\\S+@\\S+\\.\\S+"],
+      ans: 0,
+      exp: "\\w+@\\w+\\.\\w+ matches word characters, @, domain, literal dot (escaped), and extension."
+    },
+    {
+      q: "What does \\W (capital W) represent?",
+      opts: ["Non-word characters", "Word characters", "Whitespace", "Any character"],
+      ans: 0,
+      exp: "\\W is the complement of \\w, matching any character that is NOT a word character."
+    },
+    {
+      q: "How do you match a phone number like 123-456-7890?",
+      opts: ["\\d{3}-\\d{3}-\\d{4}", "\\d*-\\d*-\\d*", "[0-9]+-[0-9]+-[0-9]+", "\\w{3}-\\w{3}-\\w{4}"],
+      ans: 0,
+      exp: "\\d{3}-\\d{3}-\\d{4} matches exactly 3 digits, hyphen, 3 digits, hyphen, 4 digits."
+    },
+    // Multiple answer questions
+    {
+      q: "Which of the following are valid regex quantifiers? (Select all that apply)",
+      opts: ["*", "+", "?", "{n,m}"],
+      ans: [0, 1, 2, 3],
+      multiple: true,
+      exp: "All of these are valid quantifiers: * (zero or more), + (one or more), ? (zero or one), {n,m} (between n and m)."
+    },
+    {
+      q: "Which patterns will match the string 'cat'? (Select all that apply)",
+      opts: ["cat", "c.t", "[cat]{3}", "c[aeiou]t"],
+      ans: [0, 1, 3],
+      multiple: true,
+      exp: "'cat' matches literally, 'c.t' matches with any character in middle, 'c[aeiou]t' matches with vowels. '[cat]{3}' matches any 3 characters from the set, not the word."
+    },
+    {
+      q: "Which of these represent whitespace in regex? (Select all that apply)",
+      opts: ["\\s", " ", "\\t", "\\n"],
+      ans: [0, 1, 2, 3],
+      multiple: true,
+      exp: "\\s matches any whitespace, space is literal space, \\t is tab, \\n is newline - all represent whitespace."
+    },
+    {
+      q: "Which patterns match one or more digits? (Select all that apply)",
+      opts: ["\\d+", "[0-9]+", "\\d{1,}", "[0-9]{1,}"],
+      ans: [0, 1, 2, 3],
+      multiple: true,
+      exp: "All these patterns match one or more digits: \\d+ and [0-9]+ use the + quantifier, while {1,} means 'one or more'."
+    },
+    {
+      q: "Which are valid ways to escape special characters? (Select all that apply)",
+      opts: ["\\.", "\\*", "\\+", "\\{"],
+      ans: [0, 1, 2, 3],
+      multiple: true,
+      exp: "All special regex characters should be escaped with backslash to match them literally."
+    },
+    {
+      q: "Which patterns will match 'abc' at the start of a line? (Select all that apply)",
+      opts: ["^abc", "^abc.*", "abc", ".*abc"],
+      ans: [0, 1],
+      multiple: true,
+      exp: "^abc and ^abc.* both use the ^ anchor to match at start of line. Plain 'abc' and '.*abc' can match anywhere."
+    }
+  ];
+  
+  // Select a random question
+  const selectedQuestion = regexQuestions[Math.floor(rng() * regexQuestions.length)];
+  
+  if (selectedQuestion.multiple) {
+    // For multiple answer questions, keep original order and return array of correct indices
+    return {
+      q: selectedQuestion.q,
+      opts: selectedQuestion.opts,
+      ans: selectedQuestion.ans,
+      multiple: true,
+      exp: selectedQuestion.exp
+    };
+  } else {
+    // For single answer questions, shuffle as before
+    const correctAnswer = selectedQuestion.opts[selectedQuestion.ans];
+    const shuffledOptions = shuffle([...selectedQuestion.opts], rng);
+    const correctIndex = shuffledOptions.findIndex(opt => opt === correctAnswer);
+    
+    return {
+      q: selectedQuestion.q,
+      opts: shuffledOptions,
+      ans: correctIndex,
+      exp: selectedQuestion.exp
+    };
+  }
+}
+
+function generateCodePatternQuestion(keyTerms, text, rng) {
+  // Check if this appears to be programming content, but exclude URLs
+  const isProgrammingContext = /programming|code|function|algorithm|syntax|variable|array|object|method/i.test(text);
+  
+  if (!isProgrammingContext) return null;
+  
+  // Find actual programming terms, excluding URLs and website names
+  const codeTerms = keyTerms.filter(term => 
+    /\(\)/.test(term) && 
+    !term.includes('.com') && 
+    !term.includes('.org') &&
+    !term.includes('http') &&
+    term.length < 20 // Reasonable function name length
+  );
+  
+  // If no actual code terms found, generate general programming questions
+  const programmingQuestions = [
+    {
+      q: 'What does the dot notation (.) typically represent in programming?',
+      opts: ['Object property or method access', 'Mathematical multiplication', 'String concatenation', 'Variable declaration'],
+      ans: 0,
+      exp: 'Dot notation is commonly used to access properties or methods of objects.'
+    },
+    {
+      q: 'Which of these is a common programming pattern?',
+      opts: ['function()', 'variable = value', 'if condition', 'All of the above'],
+      ans: 3,
+      exp: 'All of these represent fundamental programming patterns used in most languages.'
+    },
+    {
+      q: 'What are variables typically used for in programming?',
+      opts: ['Storing and manipulating data', 'Creating visual interfaces', 'Network communication', 'File compression'],
+      ans: 0,
+      exp: 'Variables are fundamental data containers in programming languages.'
+    },
+    {
+      q: 'What is the purpose of functions in programming?',
+      opts: ['Organizing code into reusable blocks', 'Displaying graphics', 'Managing memory', 'Handling user input'],
+      ans: 0,
+      exp: 'Functions allow code to be organized into reusable, modular blocks.'
+    },
+    {
+      q: 'What does an algorithm represent in programming?',
+      opts: ['A step-by-step procedure to solve a problem', 'A programming language', 'A data storage method', 'A user interface design'],
+      ans: 0,
+      exp: 'An algorithm is a defined sequence of steps to accomplish a task or solve a problem.'
+    }
+  ];
+  
+  const selectedQuestion = programmingQuestions[Math.floor(rng() * programmingQuestions.length)];
+  
+  return {
+    q: selectedQuestion.q,
+    opts: selectedQuestion.opts,
+    ans: selectedQuestion.ans,
+    exp: selectedQuestion.exp
+  };
+}
+
 // ============ Gemini-based generator ============
 async function generateSetWithGemini(slidesText, perSet, apikey, temperature=0.7){
   // Check if we have sufficient content for AI generation
@@ -2209,28 +3631,31 @@ async function generateSetWithGemini(slidesText, perSet, apikey, temperature=0.7
     return generateGenericQuestions(perSet);
   }
 
-  const prompt = `You are generating multiple-choice questions (MCQs) from the provided slides text.
+  // Check if this appears to be regex content
+  const isRegexContent = /regex|regular\s+expression|pattern|match|character\s+class|quantifier|metacharacter|anchor|backslash|escape|literal|wildcard|dot|caret|dollar|pipe|alternation|group|capture|bracket|brace|parenthes|repetition|greedy|lazy|pythex|regexper/i.test(slidesText);
 
-IMPORTANT: If the slides text is very limited (mostly page headers, numbers, or minimal content), focus on creating general academic/educational questions based on any keywords or context you can identify.
+  const prompt = `Generate ${perSet} multiple-choice questions from the slides content.
 
-Return ONLY JSON with this exact shape:
-{"questions":[{"q":"...", "opts":["A","B","C","D"], "ans":0, "exp":"..."}]}
+${isRegexContent ? 'DETECTED: Regular expressions content. Focus on regex concepts.' : ''}
 
-Rules:
-- Create exactly ${perSet} questions.
-- Each question has 4 options (A-D), exactly 1 correct.
-- "ans" is the 0-based index of the correct option.
-- "exp" is a 1-2 sentence explanation.
-- Do NOT include any text outside JSON. No code fences.
-- If slides text is limited, create educational questions based on apparent subject area.
-- Make questions educational and meaningful, even if slides are image-heavy.
+Return ONLY this JSON format:
+{
+  "questions": [
+    {"q": "Question text", "opts": ["A", "B", "C", "D"], "ans": 0, "exp": "Explanation"},
+    {"q": "Multiple choice question (Select all that apply)", "opts": ["A", "B", "C", "D"], "ans": [0, 2], "multiple": true, "exp": "Explanation"}
+  ]
+}
 
-Available slides text:
-<slides>
-${slidesText.substring(0, 18000)}
-</slides>
+RULES:
+- Return exactly ${perSet} questions
+- Mix single answer (ans: number) and multiple answer (ans: array, multiple: true)
+- 20-30% should be multiple answer questions  
+- Add "(Select all that apply)" for multiple answer questions
+- No text outside JSON
+- Create educational questions about the content
 
-If the text above is very limited, infer the subject area and create relevant educational questions about that topic.`;
+CONTENT:
+${slidesText.substring(0, 12000)}`;
 
   const payload = {
     contents: [{ role: "user", parts: [{ text: prompt }]}],
@@ -2246,14 +3671,93 @@ If the text above is very limited, infer the subject area and create relevant ed
   }
   const data = await resp.json();
   let text = (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0].text) || "";
+  
+  // Clean up the response text more thoroughly
   text = text.replace(/^```json\s*|\s*```$/g, "");
+  text = text.replace(/^```\s*|\s*```$/g, "");
+  
+  // Try to extract JSON if it's embedded in other text
+  const jsonMatch = text.match(/\{[\s\S]*"questions"[\s\S]*\]/);
+  if (jsonMatch) {
+    text = jsonMatch[0];
+    // Find the closing brace for the main object
+    let braceCount = 0;
+    let endIndex = -1;
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === '{') braceCount++;
+      if (text[i] === '}') {
+        braceCount--;
+        if (braceCount === 0) {
+          endIndex = i;
+          break;
+        }
+      }
+    }
+    if (endIndex > 0) {
+      text = text.substring(0, endIndex + 1);
+    }
+  }
+  
   let parsed;
-  try{ parsed = JSON.parse(text); } catch(e){ throw new Error("Failed to parse JSON from Gemini: "+e.message+"\nRaw: "+text.slice(0,400)); }
-  if (!parsed || !Array.isArray(parsed.questions)) throw new Error("Gemini JSON missing 'questions' array.");
+  try{ 
+    parsed = JSON.parse(text); 
+  } catch(e){ 
+    console.error("Failed to parse JSON from Gemini:", e.message);
+    console.error("Raw response:", text.slice(0, 1000));
+    
+    // Try to fix common JSON issues
+    let fixedText = text;
+    
+    // Remove any text before the first {
+    const firstBrace = fixedText.indexOf('{');
+    if (firstBrace > 0) {
+      fixedText = fixedText.substring(firstBrace);
+    }
+    
+    // Remove any text after the last }
+    const lastBrace = fixedText.lastIndexOf('}');
+    if (lastBrace >= 0) {
+      fixedText = fixedText.substring(0, lastBrace + 1);
+    }
+    
+    // Try parsing the cleaned text
+    try {
+      parsed = JSON.parse(fixedText);
+      console.log("Successfully parsed cleaned JSON");
+    } catch(e2) {
+      console.error("Failed to parse cleaned JSON:", e2.message);
+      console.warn("Falling back to heuristic generation due to JSON parse error");
+      return heuristicGenerate(slidesText, perSet, seededRandom(Date.now().toString()));
+    }
+  }
+  
+  // Validate the parsed structure
+  if (!parsed) {
+    console.error("Parsed object is null/undefined");
+    return heuristicGenerate(slidesText, perSet, seededRandom(Date.now().toString()));
+  }
+  
+  if (!parsed.questions) {
+    console.error("Missing 'questions' property. Available properties:", Object.keys(parsed));
+    // Maybe it's a flat array?
+    if (Array.isArray(parsed)) {
+      console.log("Response is a flat array, trying to wrap it");
+      parsed = { questions: parsed };
+    } else {
+      console.warn("Falling back to heuristic generation - no questions found");
+      return heuristicGenerate(slidesText, perSet, seededRandom(Date.now().toString()));
+    }
+  }
+  
+  if (!Array.isArray(parsed.questions)) {
+    console.error("'questions' is not an array:", typeof parsed.questions);
+    return heuristicGenerate(slidesText, perSet, seededRandom(Date.now().toString()));
+  }
   parsed.questions = parsed.questions.map(q => ({
     q: String(q.q||"").trim(),
-    opts: Array.isArray(q.opts) && q.opts.length===4 ? q.opts.map(String) : ["A","B","C","D"],
-    ans: Number.isInteger(q.ans) ? q.ans : 0,
+    opts: Array.isArray(q.opts) && q.opts.length>=2 ? q.opts.map(String) : ["A","B","C","D"],
+    ans: q.multiple && Array.isArray(q.ans) ? q.ans : (Number.isInteger(q.ans) ? q.ans : 0),
+    multiple: q.multiple || false,
     exp: String(q.exp||"").trim()
   }));
   if (parsed.questions.length !== perSet){
@@ -2280,6 +3784,390 @@ let ACTIVE_INDEX = -1;
 let START_TIME = Date.now();
 let RNG = Math.random;
 let LAST_RESULTS = []; // for CSV export
+
+// ============ Progress Tracking ============
+let PROGRESS_DATA = {
+  sessions: [],
+  topicStats: {},
+  totalAttempts: 0,
+  totalScore: 0,
+  bestStreak: 0,
+  currentStreak: 0
+};
+
+function loadProgressData() {
+  try {
+    const saved = localStorage.getItem('quiz_progress_data');
+    if (saved) {
+      PROGRESS_DATA = { ...PROGRESS_DATA, ...JSON.parse(saved) };
+      console.log('Progress data loaded');
+    }
+  } catch (e) {
+    console.warn('Failed to load progress data:', e);
+  }
+}
+
+function saveProgressData() {
+  try {
+    localStorage.setItem('quiz_progress_data', JSON.stringify(PROGRESS_DATA));
+  } catch (e) {
+    console.warn('Failed to save progress data:', e);
+  }
+}
+
+function detectTopic(slidesText, fileName) {
+  const text = slidesText.toLowerCase();
+  
+  // Detect specific topics based on content
+  if (/regex|regular\s+expression|pattern|match|quantifier|metacharacter/i.test(text)) {
+    return 'Regular Expressions';
+  } else if (/javascript|js|function|variable|array|object/i.test(text)) {
+    return 'JavaScript';
+  } else if (/python|def|import|class|list|dict/i.test(text)) {
+    return 'Python';
+  } else if (/html|css|tag|element|style|selector/i.test(text)) {
+    return 'Web Development';
+  } else if (/database|sql|query|table|select/i.test(text)) {
+    return 'Database';
+  } else if (/algorithm|data\s+structure|sort|search|complexity/i.test(text)) {
+    return 'Algorithms';
+  } else if (fileName) {
+    // Fall back to filename-based detection
+    const name = fileName.toLowerCase();
+    if (name.includes('regex') || name.includes('expression')) return 'Regular Expressions';
+    if (name.includes('js') || name.includes('javascript')) return 'JavaScript';
+    if (name.includes('python') || name.includes('py')) return 'Python';
+    if (name.includes('web') || name.includes('html')) return 'Web Development';
+    if (name.includes('database') || name.includes('sql')) return 'Database';
+    if (name.includes('algorithm')) return 'Algorithms';
+    
+    // Extract topic from week/chapter patterns
+    const weekMatch = name.match(/week\s*(\d+)|chapter\s*(\d+)/);
+    if (weekMatch) {
+      return `Week ${weekMatch[1] || weekMatch[2]} Content`;
+    }
+  }
+  
+  return 'General Study';
+}
+
+function recordQuizSession(topic, score, totalQuestions, timeSpent, questionDetails) {
+  const session = {
+    id: Date.now(),
+    timestamp: new Date().toISOString(),
+    topic: topic,
+    score: score,
+    totalQuestions: totalQuestions,
+    percentage: Math.round((score / totalQuestions) * 100),
+    timeSpent: timeSpent,
+    questionDetails: questionDetails,
+    date: new Date().toLocaleDateString()
+  };
+  
+  // Add to sessions
+  PROGRESS_DATA.sessions.unshift(session); // Most recent first
+  
+  // Keep only last 100 sessions to avoid storage bloat
+  if (PROGRESS_DATA.sessions.length > 100) {
+    PROGRESS_DATA.sessions = PROGRESS_DATA.sessions.slice(0, 100);
+  }
+  
+  // Update topic stats
+  if (!PROGRESS_DATA.topicStats[topic]) {
+    PROGRESS_DATA.topicStats[topic] = {
+      attempts: 0,
+      totalScore: 0,
+      totalQuestions: 0,
+      bestScore: 0,
+      averageTime: 0,
+      weakAreas: {},
+      lastAttempt: null
+    };
+  }
+  
+  const topicStat = PROGRESS_DATA.topicStats[topic];
+  topicStat.attempts++;
+  topicStat.totalScore += score;
+  topicStat.totalQuestions += totalQuestions;
+  topicStat.bestScore = Math.max(topicStat.bestScore, session.percentage);
+  topicStat.averageTime = Math.round((topicStat.averageTime * (topicStat.attempts - 1) + timeSpent) / topicStat.attempts);
+  topicStat.lastAttempt = session.timestamp;
+  
+  // Track weak areas (questions answered incorrectly)
+  questionDetails.forEach(q => {
+    if (!q.correct) {
+      const concept = extractConcept(q.question);
+      if (!topicStat.weakAreas[concept]) {
+        topicStat.weakAreas[concept] = { count: 0, questions: [] };
+      }
+      topicStat.weakAreas[concept].count++;
+      topicStat.weakAreas[concept].questions.push({
+        question: q.question,
+        yourAnswer: q.selectedAnswer,
+        correctAnswer: q.correctAnswer,
+        timestamp: session.timestamp
+      });
+    }
+  });
+  
+  // Update global stats
+  PROGRESS_DATA.totalAttempts++;
+  PROGRESS_DATA.totalScore += score;
+  
+  // Update streak
+  if (session.percentage >= 70) { // 70% threshold for maintaining streak
+    PROGRESS_DATA.currentStreak++;
+    PROGRESS_DATA.bestStreak = Math.max(PROGRESS_DATA.bestStreak, PROGRESS_DATA.currentStreak);
+  } else {
+    PROGRESS_DATA.currentStreak = 0;
+  }
+  
+  saveProgressData();
+  return session;
+}
+
+function extractConcept(questionText) {
+  const text = questionText.toLowerCase();
+  
+  // Regex concepts
+  if (text.includes('quantifier')) return 'Quantifiers';
+  if (text.includes('character class') || text.includes('[')) return 'Character Classes';
+  if (text.includes('anchor') || text.includes('^') || text.includes('$')) return 'Anchors';
+  if (text.includes('escape') || text.includes('\\')) return 'Escaping';
+  if (text.includes('group') || text.includes('()')) return 'Groups';
+  if (text.includes('alternation') || text.includes('|')) return 'Alternation';
+  
+  // Programming concepts
+  if (text.includes('function')) return 'Functions';
+  if (text.includes('variable')) return 'Variables';
+  if (text.includes('array') || text.includes('list')) return 'Arrays/Lists';
+  if (text.includes('object')) return 'Objects';
+  if (text.includes('loop')) return 'Loops';
+  
+  return 'General Concepts';
+}
+
+function getProgressInsights() {
+  const insights = {
+    totalSessions: PROGRESS_DATA.sessions.length,
+    averageScore: PROGRESS_DATA.totalAttempts > 0 ? 
+      Math.round((PROGRESS_DATA.totalScore / PROGRESS_DATA.totalAttempts) * 100) / 100 : 0,
+    bestStreak: PROGRESS_DATA.bestStreak,
+    currentStreak: PROGRESS_DATA.currentStreak,
+    topicsStudied: Object.keys(PROGRESS_DATA.topicStats).length,
+    recentSessions: PROGRESS_DATA.sessions.slice(0, 5),
+    topicPerformance: {},
+    weakestAreas: []
+  };
+  
+  // Calculate topic performance
+  Object.entries(PROGRESS_DATA.topicStats).forEach(([topic, stats]) => {
+    insights.topicPerformance[topic] = {
+      attempts: stats.attempts,
+      averageScore: stats.totalQuestions > 0 ? 
+        Math.round((stats.totalScore / stats.totalQuestions) * 100) : 0,
+      bestScore: stats.bestScore,
+      averageTime: stats.averageTime,
+      lastStudied: stats.lastAttempt
+    };
+  });
+  
+  // Find weakest areas across all topics
+  const allWeakAreas = [];
+  Object.entries(PROGRESS_DATA.topicStats).forEach(([topic, stats]) => {
+    Object.entries(stats.weakAreas).forEach(([concept, data]) => {
+      allWeakAreas.push({
+        topic,
+        concept,
+        errorCount: data.count,
+        recentErrors: data.questions.slice(-3) // Last 3 errors
+      });
+    });
+  });
+  
+  insights.weakestAreas = allWeakAreas
+    .sort((a, b) => b.errorCount - a.errorCount)
+    .slice(0, 5); // Top 5 weakest areas
+  
+  return insights;
+}
+
+function showProgressDashboard() {
+  const insights = getProgressInsights();
+  
+  // Check if user has any progress data
+  if (insights.totalSessions === 0) {
+    const noDataHtml = `
+      <div class="progress-dashboard">
+        <div class="progress-header">
+          <h2>📊 Your Learning Progress</h2>
+          <button class="close-btn" onclick="hideProgressDashboard()">✕</button>
+        </div>
+        
+        <div class="no-progress-content">
+          <div class="no-progress-icon">📚</div>
+          <h3>No Progress Data Yet</h3>
+          <p>Complete your first quiz to start tracking your learning progress!</p>
+          <div class="progress-features">
+            <h4>🎯 What You'll Track:</h4>
+            <ul>
+              <li>📈 Quiz scores and improvement over time</li>
+              <li>📚 Performance by topic (Regex, JavaScript, Python, etc.)</li>
+              <li>🎯 Areas that need more practice</li>
+              <li>🔥 Learning streaks and achievements</li>
+              <li>📊 Detailed session history</li>
+            </ul>
+          </div>
+          <button onclick="hideProgressDashboard()" class="get-started-btn">
+            🚀 Get Started - Generate Your First Quiz!
+          </button>
+        </div>
+      </div>
+    `;
+    
+    // Show as overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'progress-overlay';
+    overlay.innerHTML = noDataHtml;
+    document.body.appendChild(overlay);
+    return;
+  }
+  
+  const progressHtml = `
+    <div class="progress-dashboard">
+      <div class="progress-header">
+        <h2>📊 Your Learning Progress</h2>
+        <button class="close-btn" onclick="hideProgressDashboard()">✕</button>
+      </div>
+      
+      <div class="progress-grid">
+        <!-- Overall Stats -->
+        <div class="progress-card">
+          <h3>📈 Overall Performance</h3>
+          <div class="stat-grid">
+            <div class="stat">
+              <span class="stat-value">${insights.totalSessions}</span>
+              <span class="stat-label">Total Quizzes</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">${insights.averageScore.toFixed(1)}</span>
+              <span class="stat-label">Avg Score</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">${insights.currentStreak}</span>
+              <span class="stat-label">Current Streak</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">${insights.bestStreak}</span>
+              <span class="stat-label">Best Streak</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Topic Performance -->
+        <div class="progress-card">
+          <h3>📚 Topic Performance</h3>
+          <div class="topic-list">
+            ${Object.entries(insights.topicPerformance).map(([topic, stats]) => `
+              <div class="topic-item">
+                <div class="topic-name">${topic}</div>
+                <div class="topic-stats">
+                  <span class="topic-score ${stats.averageScore >= 80 ? 'good' : stats.averageScore >= 60 ? 'okay' : 'needs-work'}">${stats.averageScore}%</span>
+                  <span class="topic-attempts">${stats.attempts} attempts</span>
+                  <span class="topic-best">Best: ${stats.bestScore}%</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <!-- Weak Areas -->
+        <div class="progress-card">
+          <h3>🎯 Areas for Improvement</h3>
+          <div class="weak-areas">
+            ${insights.weakestAreas.length > 0 ? 
+              insights.weakestAreas.map(area => `
+                <div class="weak-area">
+                  <div class="weak-concept">${area.concept}</div>
+                  <div class="weak-topic">${area.topic}</div>
+                  <div class="weak-count">${area.errorCount} errors</div>
+                </div>
+              `).join('') : 
+              '<div class="no-weak-areas">🎉 No weak areas identified yet!</div>'
+            }
+          </div>
+        </div>
+        
+        <!-- Recent Sessions -->
+        <div class="progress-card">
+          <h3>🕒 Recent Sessions</h3>
+          <div class="session-list">
+            ${insights.recentSessions.map(session => `
+              <div class="session-item">
+                <div class="session-topic">${session.topic}</div>
+                <div class="session-score ${session.percentage >= 80 ? 'good' : session.percentage >= 60 ? 'okay' : 'needs-work'}">${session.percentage}%</div>
+                <div class="session-date">${session.date}</div>
+                <div class="session-time">${Math.round(session.timeSpent / 1000 / 60)}min</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      
+      <div class="progress-actions">
+        <button onclick="exportProgressData()" class="export-btn">📥 Export Data</button>
+        <button onclick="clearProgressData()" class="clear-btn">🗑️ Clear All Data</button>
+      </div>
+    </div>
+  `;
+  
+  // Show as overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'progress-overlay';
+  overlay.innerHTML = progressHtml;
+  document.body.appendChild(overlay);
+}
+
+function hideProgressDashboard() {
+  const overlay = document.querySelector('.progress-overlay');
+  if (overlay) {
+    overlay.remove();
+  }
+}
+
+function exportProgressData() {
+  const insights = getProgressInsights();
+  const data = {
+    exportDate: new Date().toISOString(),
+    summary: insights,
+    sessions: PROGRESS_DATA.sessions,
+    topicStats: PROGRESS_DATA.topicStats
+  };
+  
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `quiz-progress-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function clearProgressData() {
+  if (confirm('Are you sure you want to clear all progress data? This cannot be undone.')) {
+    localStorage.removeItem('quiz_progress_data');
+    PROGRESS_DATA = {
+      sessions: [],
+      topicStats: {},
+      totalAttempts: 0,
+      totalScore: 0,
+      bestStreak: 0,
+      currentStreak: 0
+    };
+    hideProgressDashboard();
+    alert('Progress data cleared successfully.');
+  }
+}
 
 // ============ Rendering ============
 function setStatus(msg, showLoading = false){ 
@@ -2325,10 +4213,15 @@ function renderQuiz(){
     const qBox = el('div', {class:'qbox'});
     const title = el('div', {class:'qtitle', html:`${String(i+1).padStart(2,'0')}. ${q.q.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}`});
     qBox.appendChild(title);
-    for (let j=0;j<4;j++){
+    
+    // Determine input type based on question type
+    const inputType = q.multiple ? 'checkbox' : 'radio';
+    const inputName = q.multiple ? `q${i}_multi` : `q${i}`;
+    
+    for (let j=0;j<q.opts.length;j++){
       const id = `q${i}_opt${j}`;
       const label = el('label', {class:'opt', for:id});
-      const input = el('input', {type:'radio', name:`q${i}`, id});
+      const input = el('input', {type:inputType, name:inputName, id, value:j});
       const text = ` ${['A','B','C','D'][j]}) ${q.opts[j]}`;
       label.appendChild(input);
       label.appendChild(document.createTextNode(text));
@@ -2357,24 +4250,54 @@ function grade(){
 
   for (let i=0;i<qs.length;i++){
     const q = qs[i];
+    let isCorrect = false;
+    let selLetter = '';
+    let selText = '';
+    let corrLetter = '';
+    let corrText = '';
+    
+    if (q.multiple) {
+      // Handle multiple answer questions
+      const selectedBoxes = document.querySelectorAll(`input[name="q${i}_multi"]:checked`);
+      const selectedIndices = Array.from(selectedBoxes).map(box => parseInt(box.value));
+      const correctIndices = Array.isArray(q.ans) ? q.ans : [q.ans];
+      
+      // Check if selected answers match correct answers exactly
+      selectedIndices.sort();
+      correctIndices.sort();
+      isCorrect = selectedIndices.length === correctIndices.length && 
+                  selectedIndices.every((val, index) => val === correctIndices[index]);
+      
+      const letters = ['A','B','C','D'];
+      selLetter = selectedIndices.length > 0 ? selectedIndices.map(idx => letters[idx]).join(', ') : '—';
+      selText = selectedIndices.length > 0 ? selectedIndices.map(idx => q.opts[idx]).join('; ') : 'Not answered';
+      corrLetter = correctIndices.map(idx => letters[idx]).join(', ');
+      corrText = correctIndices.map(idx => q.opts[idx]).join('; ');
+      
+    } else {
+      // Handle single answer questions
     const selected = document.querySelector(`input[name="q${i}"]:checked`);
     let selIndex = -1;
     if (selected){
       const m = selected.id.match(/_opt(\d)$/);
       if (m) selIndex = parseInt(m[1], 10);
     }
-    const isCorrect = selIndex === q.ans;
-    if (isCorrect) score += 1;
+      isCorrect = selIndex === q.ans;
     const letters = ['A','B','C','D'];
-    const selLetter = selIndex >= 0 ? letters[selIndex] : '—';
-    const corrLetter = letters[q.ans];
+      selLetter = selIndex >= 0 ? letters[selIndex] : '—';
+      selText = selIndex >= 0 ? q.opts[selIndex] : 'Not answered';
+      corrLetter = letters[q.ans];
+      corrText = q.opts[q.ans];
+    }
+    
+    if (isCorrect) score += 1;
 
     LAST_RESULTS.push({
       number: i+1,
       question: q.q,
       selected: selLetter,
       correct: corrLetter,
-      correct_text: q.opts[q.ans],
+      correct_text: corrText,
       explanation: q.exp
     });
 
@@ -2385,8 +4308,8 @@ function grade(){
           <span class="feedback-question">${q.q}</span>
         </div>
         <div class="feedback-answers">
-          <span class="your-answer">Your answer: <b>${selLetter}</b> (${selIndex >= 0 ? q.opts[selIndex] : 'Not answered'})</span>
-          <span class="correct-answer">Correct: <b>${corrLetter}</b> (${q.opts[q.ans]})</span>
+          <span class="your-answer">Your answer: <b>${selLetter}</b> (${selText})</span>
+          <span class="correct-answer">Correct: <b>${corrLetter}</b> (${corrText})</span>
           <span class="result-status">${isCorrect ? '<span class="correct">✅ Correct</span>' : '<span class="incorrect">❌ Incorrect</span>'}</span>
         </div>
         <div class="feedback-explanation">
@@ -2399,12 +4322,28 @@ function grade(){
   const pct = Math.round((score/qs.length)*100);
   $("score").innerHTML = `Score: ${score} / ${qs.length} (${pct}%)`;
   
+  // Record progress data
+  const timeSpent = elapsed;
+  const currentTopic = detectTopic(SLIDES_TEXT, 'Current Quiz');
+  const questionDetails = LAST_RESULTS.map(result => ({
+    question: result.question,
+    selectedAnswer: result.selected,
+    correctAnswer: result.correct,
+    correct: result.selected === result.correct
+  }));
+  
+  const session = recordQuizSession(currentTopic, score, qs.length, timeSpent, questionDetails);
+  console.log('Quiz session recorded:', session);
+  
   // Create the feedback container with proper structure
   const feedbackHtml = `
     <div class="feedback-container">
       <div class="feedback-header-controls">
         <h4 class="feedback-title">📝 Detailed Results (${qs.length} questions)</h4>
-        <button class="feedback-toggle" onclick="resetToRandomSet()">🎲 Restart (Random Set)</button>
+        <div style="display: flex; gap: 10px;">
+          <button class="feedback-toggle" onclick="showProgressDashboard()">📊 Progress</button>
+          <button class="feedback-toggle" onclick="resetToRandomSet()">🎲 Restart</button>
+        </div>
       </div>
       <div class="feedback-content">
         ${rows.join('')}
@@ -2469,6 +4408,11 @@ async function generateQuizzes(){
     const hasImageContent = SLIDES_TEXT.includes("===== EXTRACTED FROM IMAGES =====");
     console.log(`Extracted ${textLength} characters from ${files.length} PDF(s)`);
     
+    // Debug: Show extracted content
+    console.log("=== EXTRACTED TEXT PREVIEW ===");
+    console.log(SLIDES_TEXT.substring(0, 1000));
+    console.log("=== END PREVIEW ===");
+    
     if (hasImageContent) {
       setStatus("🎯 Content extracted from images and text - generating comprehensive questions.");
     } else if (textLength < 200) {
@@ -2492,11 +4436,18 @@ async function generateQuizzes(){
       const slices = sliceForSets(SLIDES_TEXT, numSets);
       for (let i=0;i<numSets;i++){
         setStatus(`Generating set ${i+1} of ${numSets} with Gemini`, true);
+        try {
         const qset = await generateSetWithGemini(slices[i], perSet, apikey, 0.7);
         QUIZ_SETS.push(qset);
+        } catch (error) {
+          console.error(`Error generating set ${i+1} with Gemini:`, error);
+          setStatus(`Set ${i+1} failed, using fallback method`, true);
+          const qset = heuristicGenerate(SLIDES_TEXT, perSet, RNG);
+          QUIZ_SETS.push(qset);
+        }
       }
     } else {
-      setStatus("Generating questions with fallback method", true);
+      setStatus("Generating questions with enhanced fallback method", true);
       for (let i=0;i<numSets;i++){
         setStatus(`Creating set ${i+1} of ${numSets}`, true);
         const qset = heuristicGenerate(SLIDES_TEXT, perSet, RNG);
@@ -2659,8 +4610,9 @@ function clearApiKey() {
   }
 }
 
-// Load API key on page load
+// Load API key and progress data on page load
 loadApiKey();
+loadProgressData();
 
 // Save API key when it changes
 $("apikey").addEventListener('input', function() {
