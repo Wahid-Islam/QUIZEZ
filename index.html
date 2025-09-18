@@ -1250,10 +1250,77 @@
     .action-row {
       flex-direction: column;
       align-items: stretch;
+      gap: var(--space-3);
+    }
+    
+    /* Fix mobile button alignment */
+    .action-row > div {
+      width: 100%;
+    }
+    
+    .action-row button {
+      width: 100%;
+      margin: 0 !important;
+      margin-bottom: var(--space-2) !important;
+      text-align: center;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+    }
+    
+    .progress-btn {
+      margin-left: 0 !important;
+      width: 100%;
     }
     
     .control-buttons {
       flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-3);
+      width: 100%;
+    }
+    
+    .control-buttons button {
+      width: 100%;
+      margin: 0 !important;
+      text-align: center;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Star button mobile adjustments */
+    .star-button {
+      width: 100% !important;
+      padding: 15px 20px !important;
+      margin: 0 !important;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+    }
+    
+    /* Additional mobile button fixes */
+    .controls {
+      width: 100%;
+    }
+    
+    .controls .control-buttons {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    
+    /* Ensure quiz header buttons are also aligned */
+    .quiz-header button {
+      width: 100%;
+      margin: 0;
+      text-align: center;
+    }
+    
+    /* Remove any conflicting inline styles on mobile */
+    button[style*="margin"] {
+      margin: 0 !important;
     }
     
     .export-buttons {
